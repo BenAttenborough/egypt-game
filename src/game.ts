@@ -27,12 +27,28 @@ function draw() {
   }
 }
 
-require(["./domReady"], function (domReady) {
+function update(tFrame) {}
+
+const MyGame = {
+  stopMain: 0,
+};
+
+require(["domReady"], function (domReady) {
   domReady(function () {
     //This function is called once the DOM is ready.
     //It will be safe to query the DOM and manipulate
     //DOM nodes in this function.
     console.log("Dom ready");
-    draw();
+    // draw();
+    (() => {
+      function main(tFrame?: number) {
+        MyGame.stopMain = window.requestAnimationFrame(main);
+
+        update(tFrame); // Call your update method. In our case, we give it rAF's timestamp.
+        // draw();
+      }
+
+      main(); // Start the cycle
+    })();
   });
 });
