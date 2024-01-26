@@ -45,9 +45,16 @@ export class Grid {
   }
 
   private checkPosition(pos: Grid.Point): boolean {
+    console.log("pos", pos);
+    console.log("this.getRow(pos[1])", this.getRow(pos[1]));
+    console.log("this.get(pos)", this.get(pos));
+
     if (this.getRow(pos[1]) && this.get(pos)) {
+      console.log("MOVE");
       return true;
     }
+    console.log("DON'T MOVE");
+
     return false;
   }
 
@@ -75,6 +82,7 @@ export class Grid {
     if (this.checkPosition(proposedPosition)) {
       this.position = proposedPosition;
     }
+    // this.position = proposedPosition;
   }
 
   findFirst(needle: any): Grid.Point {
