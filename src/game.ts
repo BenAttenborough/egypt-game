@@ -1,8 +1,58 @@
 import { Grid } from "./grid";
 
+type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
+
+const cellSize = 32;
+const spriteSize = 32;
+
+let player = new Image();
+player.src = "res/player-sheet.png";
+
 function createGrid(width: number, height: number, content: any): any[][] {
   let row = Array(width).fill(content);
   return Array(height).fill(row);
+}
+
+function drawPlayer(direction: Direction) {
+  let offSet = 0;
+  switch (direction) {
+    case "UP":
+      offSet = 6 * spriteSize;
+      if (MyGame.grid.position[1] % 2 === 0) {
+        offSet += spriteSize;
+      }
+      break;
+    case "RIGHT":
+      offSet = 0;
+      if (MyGame.grid.position[0] % 2 === 0) {
+        offSet += spriteSize;
+      }
+      break;
+    case "DOWN":
+      offSet = 4 * spriteSize;
+      if (MyGame.grid.position[1] % 2 === 0) {
+        offSet += spriteSize;
+      }
+      break;
+    case "LEFT":
+      offSet = 2 * spriteSize;
+      if (MyGame.grid.position[0] % 2 === 0) {
+        offSet += spriteSize;
+      }
+      break;
+  }
+
+  MyGame.ctx.drawImage(
+    player,
+    offSet,
+    0,
+    spriteSize,
+    spriteSize,
+    MyGame.grid.position[0] * cellSize,
+    MyGame.grid.position[1] * cellSize,
+    cellSize,
+    cellSize
+  );
 }
 
 function draw() {
@@ -17,29 +67,47 @@ function draw() {
       row.forEach((cell, colIdx) => {
         if (cell === 0) {
           MyGame.ctx.fillStyle = "#EE0000";
-          MyGame.ctx.fillRect(10 * colIdx, 10 * rowIdx, 10, 10);
-          MyGame.ctx.strokeRect(10 * colIdx, 10 * rowIdx, 10, 10);
+          MyGame.ctx.fillRect(
+            cellSize * colIdx,
+            cellSize * rowIdx,
+            cellSize,
+            cellSize
+          );
+          MyGame.ctx.strokeRect(
+            cellSize * colIdx,
+            cellSize * rowIdx,
+            cellSize,
+            cellSize
+          );
         } else {
-          MyGame.ctx.strokeRect(10 * colIdx, 10 * rowIdx, 10, 10);
+          MyGame.ctx.fillStyle = "#000000";
+          MyGame.ctx.fillRect(
+            cellSize * colIdx,
+            cellSize * rowIdx,
+            cellSize,
+            cellSize
+          );
         }
       });
     });
 
-    MyGame.ctx.fillStyle = "#008000";
+    // MyGame.ctx.fillStyle = "#008000";
 
-    MyGame.ctx.fillRect(
-      MyGame.grid.position[0] * 10,
-      MyGame.grid.position[1] * 10,
-      10,
-      10
-    );
+    drawPlayer(MyGame.playerDirection);
 
-    MyGame.ctx.strokeRect(
-      MyGame.grid.position[0] * 10,
-      MyGame.grid.position[1] * 10,
-      10,
-      10
-    );
+    // MyGame.ctx.fillRect(
+    //   MyGame.grid.position[0] * cellSize,
+    //   MyGame.grid.position[1] * cellSize,
+    //   cellSize,
+    //   cellSize
+    // );
+
+    // MyGame.ctx.strokeRect(
+    //   MyGame.grid.position[0] * cellSize,
+    //   MyGame.grid.position[1] * cellSize,
+    //   cellSize,
+    //   cellSize
+    // );
   }
 }
 
@@ -66,6 +134,7 @@ function initContext() {
     grid: new Grid(initPlayfield()),
     render: draw,
     stateChanged: true,
+    playerDirection: "DOWN",
   };
 }
 
@@ -87,18 +156,23 @@ require(["domReady"], function (domReady) {
           window.cancelAnimationFrame(MyGame.stopMain);
         }
         if (event.code === "ArrowUp") {
+          MyGame.playerDirection = "UP";
           MyGame.grid.move("UP");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowRight") {
+          MyGame.playerDirection = "RIGHT";
+
           MyGame.grid.move("RIGHT");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowDown") {
+          MyGame.playerDirection = "DOWN";
           MyGame.grid.move("DOWN");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowLeft") {
+          MyGame.playerDirection = "LEFT";
           MyGame.grid.move("LEFT");
           MyGame.stateChanged = true;
         }
