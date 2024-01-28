@@ -3,7 +3,7 @@ import { Grid } from "./grid";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <canvas id="game-canvas" width="288" height="160"></canvas>
+    <canvas id="game-canvas" width="670" height="320"></canvas>
   </div>
 `;
 
@@ -124,11 +124,16 @@ function update(tFrame?: number) {}
 
 function initPlayfield() {
   return [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
 }
 
@@ -192,23 +197,23 @@ document.onreadystatechange = () => {
         }
         if (event.code === "ArrowUp") {
           MyGame.playerDirection = "UP";
-          MyGame.grid.move("UP");
+          MyGame.grid.move4Block("UP");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowRight") {
           MyGame.playerDirection = "RIGHT";
 
-          MyGame.grid.move("RIGHT");
+          MyGame.grid.move4Block("RIGHT");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowDown") {
           MyGame.playerDirection = "DOWN";
-          MyGame.grid.move("DOWN");
+          MyGame.grid.move4Block("DOWN");
           MyGame.stateChanged = true;
         }
         if (event.code === "ArrowLeft") {
           MyGame.playerDirection = "LEFT";
-          MyGame.grid.move("LEFT");
+          MyGame.grid.move4Block("LEFT");
           MyGame.stateChanged = true;
         }
       },

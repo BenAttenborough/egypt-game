@@ -76,7 +76,45 @@ export class Grid {
     if (this.checkPosition(proposedPosition)) {
       this.position = proposedPosition;
     }
-    // this.position = proposedPosition;
+  }
+
+  move4Block(direction: Grid.Direction) {
+    let proposedPosition: Grid.Point = [...this.position];
+    let colliderA: Grid.Point = [...this.position];
+    let colliderB: Grid.Point = [...this.position];
+
+    switch (direction) {
+      case "UP":
+        colliderA = [proposedPosition[0], proposedPosition[1] - 1];
+        colliderB = [proposedPosition[0] + 1, proposedPosition[1] - 1];
+        if (this.checkPosition(colliderA) && this.checkPosition(colliderB)) {
+          proposedPosition[1] -= 1;
+        }
+        break;
+      case "DOWN":
+        colliderA = [proposedPosition[0], proposedPosition[1] + 2];
+        colliderB = [proposedPosition[0] + 1, proposedPosition[1] + 2];
+        if (this.checkPosition(colliderA) && this.checkPosition(colliderB)) {
+          proposedPosition[1] += 1;
+        }
+        break;
+      case "LEFT":
+        colliderA = [proposedPosition[0] - 1, proposedPosition[1]];
+        colliderB = [proposedPosition[0] - 1, proposedPosition[1] + 1];
+        if (this.checkPosition(colliderA) && this.checkPosition(colliderB)) {
+          proposedPosition[0] -= 1;
+        }
+        break;
+      case "RIGHT":
+        colliderA = [proposedPosition[0] + 2, proposedPosition[1]];
+        colliderB = [proposedPosition[0] + 2, proposedPosition[1] + 1];
+        if (this.checkPosition(colliderA) && this.checkPosition(colliderB)) {
+          proposedPosition[0] += 1;
+        }
+        break;
+    }
+
+    this.position = proposedPosition;
   }
 
   findFirst(needle: any): Grid.Point {
