@@ -3,9 +3,18 @@ import { Grid } from "./grid";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <canvas id="game-canvas" width="300" height="300"></canvas>
+    <canvas id="game-canvas" width="288" height="160"></canvas>
   </div>
 `;
+
+type GameConfig = {
+  stopMain: number;
+  ctx: CanvasRenderingContext2D;
+  grid: Grid;
+  render: () => void;
+  stateChanged: boolean;
+  playerDirection: Direction;
+};
 
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
@@ -14,11 +23,6 @@ const spriteSize = 32;
 
 let player = new Image();
 player.src = "res/player-sheet.png";
-
-function createGrid(width: number, height: number, content: any): any[][] {
-  let row = Array(width).fill(content);
-  return Array(height).fill(row);
-}
 
 function drawPlayer(direction: Direction) {
   let offSet = 0;
@@ -73,40 +77,38 @@ function draw() {
   //   console.log(grid.content);
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   //   console.log(canvas);
-  if (canvas.getContext) {
-    MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    MyGame.grid.content.forEach((row, rowIdx) => {
-      row.forEach((cell, colIdx) => {
-        if (cell === 0) {
-          MyGame.ctx.fillStyle = "#EE0000";
-          MyGame.ctx.fillRect(
-            cellSize * colIdx,
-            cellSize * rowIdx,
-            cellSize,
-            cellSize
-          );
-          MyGame.ctx.strokeRect(
-            cellSize * colIdx,
-            cellSize * rowIdx,
-            cellSize,
-            cellSize
-          );
-        } else {
-          MyGame.ctx.fillStyle = "#000000";
-          MyGame.ctx.fillRect(
-            cellSize * colIdx,
-            cellSize * rowIdx,
-            cellSize,
-            cellSize
-          );
-        }
-      });
+  MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
+  MyGame.grid.content.forEach((row, rowIdx) => {
+    row.forEach((cell, colIdx) => {
+      if (cell === 0) {
+        MyGame.ctx.fillStyle = "#EE0000";
+        MyGame.ctx.fillRect(
+          cellSize * colIdx,
+          cellSize * rowIdx,
+          cellSize,
+          cellSize
+        );
+        MyGame.ctx.strokeRect(
+          cellSize * colIdx,
+          cellSize * rowIdx,
+          cellSize,
+          cellSize
+        );
+      } else {
+        MyGame.ctx.fillStyle = "#000000";
+        MyGame.ctx.fillRect(
+          cellSize * colIdx,
+          cellSize * rowIdx,
+          cellSize,
+          cellSize
+        );
+      }
     });
-    drawPlayer(MyGame.playerDirection);
-  }
+  });
+  drawPlayer(MyGame.playerDirection);
 }
 
-function update(tFrame) {}
+function update(tFrame: number) {}
 
 function initPlayfield() {
   return [
@@ -118,7 +120,7 @@ function initPlayfield() {
   ];
 }
 
-function initContext() {
+function initContext(): GameConfig {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   if (!canvas.getContext) {
     throw new Error("No canvas found!");
