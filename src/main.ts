@@ -120,7 +120,9 @@ function draw() {
   drawPlayer(MyGame.playerDirection);
 }
 
-function update(tFrame?: number) {}
+function update(tFrame?: number) {
+  tFrame;
+}
 
 function initPlayfield() {
   return [
