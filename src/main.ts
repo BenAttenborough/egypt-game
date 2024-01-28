@@ -1,6 +1,6 @@
 import "./style.css";
 import { Grid } from "./grid";
-import imgUrl from "../res/player-sheet.png";
+import imgUrl from "./player-sheet.png";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -23,7 +23,6 @@ const cellSize = 16;
 const spriteSize = 32;
 
 let player = new Image();
-// player.src = "res/player-sheet.png";
 player.src = imgUrl;
 
 function doubleArray(arr: number[]): number[] {
