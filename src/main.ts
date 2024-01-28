@@ -18,11 +18,23 @@ type GameConfig = {
 
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
-const cellSize = 32;
+const cellSize = 16;
 const spriteSize = 32;
 
 let player = new Image();
 player.src = "res/player-sheet.png";
+
+function doubleArray(arr: number[]): number[] {
+  return arr.reduce((prev: number[], cur) => {
+    return prev.concat([cur, cur]);
+  }, []);
+}
+
+function doubleArrayArray(arr: number[][]): number[][] {
+  return arr.reduce((prev: number[][], cur) => {
+    return prev.concat([doubleArray(cur), doubleArray(cur)]);
+  }, []);
+}
 
 function drawPlayer(direction: Direction) {
   let offSet = 0;
@@ -62,8 +74,8 @@ function drawPlayer(direction: Direction) {
       spriteSize,
       MyGame.grid.position[0] * cellSize,
       MyGame.grid.position[1] * cellSize,
-      cellSize,
-      cellSize
+      spriteSize,
+      spriteSize
     );
   } catch (error) {
     window.cancelAnimationFrame(MyGame.stopMain);
@@ -108,7 +120,7 @@ function draw() {
   drawPlayer(MyGame.playerDirection);
 }
 
-function update(tFrame: number) {}
+function update(tFrame?: number) {}
 
 function initPlayfield() {
   return [
@@ -120,6 +132,34 @@ function initPlayfield() {
   ];
 }
 
+// console.log("initPlayfield", initPlayfield);
+// console.log("doubled", doubleArrayArray(initPlayfield()));
+
+// class PlayField extends Grid {
+//   move(direction: Grid.Direction) {
+//     let proposedPosition: Grid.Point = [...this.position];
+//     switch (direction) {
+//       case "UP":
+//         proposedPosition[1] -= 1;
+//         break;
+//       case "DOWN":
+//         proposedPosition[1] += 1;
+//         break;
+//       case "LEFT":
+//         proposedPosition[0] -= 1;
+//         break;
+//       case "RIGHT":
+//         proposedPosition[0] += 1;
+//         break;
+//     }
+
+//     if (this.checkPosition(proposedPosition)) {
+//       this.position = proposedPosition;
+//     }
+//     // this.position = proposedPosition;
+//   }
+// }
+
 function initContext(): GameConfig {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   if (!canvas.getContext) {
@@ -128,7 +168,7 @@ function initContext(): GameConfig {
   return {
     stopMain: 0,
     ctx: canvas.getContext("2d")!,
-    grid: new Grid(initPlayfield()),
+    grid: new Grid(doubleArrayArray(initPlayfield())),
     render: draw,
     stateChanged: true,
     playerDirection: "DOWN",
