@@ -1,4 +1,11 @@
+import "./style.css";
 import { Grid } from "./grid";
+
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+  <div>
+    <canvas id="game-canvas" width="300" height="300"></canvas>
+  </div>
+`;
 
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
@@ -42,17 +49,22 @@ function drawPlayer(direction: Direction) {
       break;
   }
 
-  MyGame.ctx.drawImage(
-    player,
-    offSet,
-    0,
-    spriteSize,
-    spriteSize,
-    MyGame.grid.position[0] * cellSize,
-    MyGame.grid.position[1] * cellSize,
-    cellSize,
-    cellSize
-  );
+  try {
+    MyGame.ctx.drawImage(
+      player,
+      offSet,
+      0,
+      spriteSize,
+      spriteSize,
+      MyGame.grid.position[0] * cellSize,
+      MyGame.grid.position[1] * cellSize,
+      cellSize,
+      cellSize
+    );
+  } catch (error) {
+    window.cancelAnimationFrame(MyGame.stopMain);
+    throw new Error(`Error loading image: ${player.currentSrc}`);
+  }
 }
 
 function draw() {
@@ -90,24 +102,7 @@ function draw() {
         }
       });
     });
-
-    // MyGame.ctx.fillStyle = "#008000";
-
     drawPlayer(MyGame.playerDirection);
-
-    // MyGame.ctx.fillRect(
-    //   MyGame.grid.position[0] * cellSize,
-    //   MyGame.grid.position[1] * cellSize,
-    //   cellSize,
-    //   cellSize
-    // );
-
-    // MyGame.ctx.strokeRect(
-    //   MyGame.grid.position[0] * cellSize,
-    //   MyGame.grid.position[1] * cellSize,
-    //   cellSize,
-    //   cellSize
-    // );
   }
 }
 
@@ -140,12 +135,10 @@ function initContext() {
 
 const MyGame = initContext();
 
-require(["domReady"], function (domReady) {
-  domReady(function () {
-    //This function is called once the DOM is ready.
-    //It will be safe to query the DOM and manipulate
-    //DOM nodes in this function.
-    console.log("Dom ready");
+document.onreadystatechange = () => {
+  if (document.readyState === "complete") {
+    // document ready
+    console.log("Ready");
 
     window.addEventListener(
       "keydown",
@@ -193,5 +186,5 @@ require(["domReady"], function (domReady) {
 
       main(); // Start the cycle
     })();
-  });
-});
+  }
+};
