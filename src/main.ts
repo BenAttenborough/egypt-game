@@ -209,58 +209,14 @@ function draw() {
       if (cell === 2) {
         if (rowIdx % 2 === 0) {
           if (colIdx % 2 === 0) {
-            // MyGame.ctx.drawImage(
-            //   footR,
-            //   0,
-            //   0,
-            //   16,
-            //   16,
-            //   cellSize * colIdx,
-            //   cellSize * rowIdx,
-            //   16,
-            //   16
-            // );
             drawQuarterImage(footR, "TL", [rowIdx, colIdx], cellSize);
           } else {
-            // MyGame.ctx.drawImage(
-            //   footR,
-            //   16,
-            //   0,
-            //   16,
-            //   16,
-            //   cellSize * colIdx,
-            //   cellSize * rowIdx,
-            //   16,
-            //   16
-            // );
             drawQuarterImage(footR, "TR", [rowIdx, colIdx], cellSize);
           }
         } else {
           if (colIdx % 2 === 0) {
-            // MyGame.ctx.drawImage(
-            //   footR,
-            //   0,
-            //   16,
-            //   16,
-            //   16,
-            //   cellSize * colIdx,
-            //   cellSize * rowIdx,
-            //   16,
-            //   16
-            // );
             drawQuarterImage(footR, "BL", [rowIdx, colIdx], cellSize);
           } else {
-            // MyGame.ctx.drawImage(
-            //   footR,
-            //   16,
-            //   16,
-            //   16,
-            //   16,
-            //   cellSize * colIdx,
-            //   cellSize * rowIdx,
-            //   16,
-            //   16
-            // );
             drawQuarterImage(footR, "BR", [rowIdx, colIdx], cellSize);
           }
         }
@@ -319,7 +275,6 @@ function initContext(): GameConfig {
 const MyGame = initContext();
 
 function setBlockFromOrigin(origin: Point, val: any) {
-  let pos: Point = [...origin];
   MyGame.grid.set([...origin], val);
   MyGame.grid.set([origin[0] + 1, origin[1]], val);
   MyGame.grid.set([origin[0], origin[1] + 1], val);
@@ -362,7 +317,6 @@ function keyboardInput() {
       if (event.code === "ArrowLeft") {
         MyGame.playerDirection = "LEFT";
         MyGame.grid.move4Block("LEFT");
-        // MyGame.grid.set(MyGame.grid.position, 2);
         setBlockFromOrigin(MyGame.grid.position, 2);
         MyGame.stateChanged = true;
       }
