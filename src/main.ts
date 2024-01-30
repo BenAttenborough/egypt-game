@@ -1,6 +1,7 @@
 import "./style.css";
 import { Grid } from "./grid";
-import imgUrl from "./player-sheet.png";
+import playerImgUrl from "./player-sheet.png";
+import tomb1ImgUrl from "./tomb-1.png";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -15,6 +16,7 @@ type GameConfig = {
   render: () => void;
   stateChanged: boolean;
   playerDirection: Direction;
+  tombs: Tomb[];
 };
 
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
@@ -23,7 +25,10 @@ const cellSize = 16;
 const spriteSize = 32;
 
 let player = new Image();
-player.src = imgUrl;
+player.src = playerImgUrl;
+
+let tomb1 = new Image();
+tomb1.src = tomb1ImgUrl;
 
 function doubleArray(arr: number[]): number[] {
   return arr.reduce((prev: number[], cur) => {
@@ -84,6 +89,28 @@ function drawPlayer(direction: Direction) {
   }
 }
 
+class Tomb {
+  x;
+  y;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  draw() {
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col <= 5; col++) {
+        MyGame.ctx.drawImage(
+          tomb1,
+          this.x * cellSize + col * cellSize,
+          this.y * cellSize + row * cellSize
+        );
+      }
+    }
+  }
+}
+
 function draw() {
   // console.log("draw");
   // console.log(MyGame.grid.position);
@@ -119,6 +146,7 @@ function draw() {
     });
   });
   drawPlayer(MyGame.playerDirection);
+  MyGame.tombs.forEach((tomb) => tomb.draw());
 }
 
 function update(tFrame?: number) {
@@ -140,33 +168,15 @@ function initPlayfield() {
   ];
 }
 
-// console.log("initPlayfield", initPlayfield);
-// console.log("doubled", doubleArrayArray(initPlayfield()));
-
-// class PlayField extends Grid {
-//   move(direction: Grid.Direction) {
-//     let proposedPosition: Grid.Point = [...this.position];
-//     switch (direction) {
-//       case "UP":
-//         proposedPosition[1] -= 1;
-//         break;
-//       case "DOWN":
-//         proposedPosition[1] += 1;
-//         break;
-//       case "LEFT":
-//         proposedPosition[0] -= 1;
-//         break;
-//       case "RIGHT":
-//         proposedPosition[0] += 1;
-//         break;
-//     }
-
-//     if (this.checkPosition(proposedPosition)) {
-//       this.position = proposedPosition;
-//     }
-//     // this.position = proposedPosition;
-//   }
-// }
+function initTombs(): Tomb[] {
+  let tombs = [];
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col <= 5; col++) {
+      tombs.push(new Tomb(col * 8 + 2, row * 6 + 2));
+    }
+  }
+  return tombs;
+}
 
 function initContext(): GameConfig {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
@@ -180,48 +190,52 @@ function initContext(): GameConfig {
     render: draw,
     stateChanged: true,
     playerDirection: "DOWN",
+    tombs: initTombs(),
   };
 }
 
 const MyGame = initContext();
 
+function keyboardInput() {
+  window.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.code === "Enter") {
+        console.log("Enter");
+        console.log(MyGame.stopMain);
+        window.cancelAnimationFrame(MyGame.stopMain);
+      }
+      if (event.code === "ArrowUp") {
+        MyGame.playerDirection = "UP";
+        MyGame.grid.move4Block("UP");
+        MyGame.stateChanged = true;
+      }
+      if (event.code === "ArrowRight") {
+        MyGame.playerDirection = "RIGHT";
+
+        MyGame.grid.move4Block("RIGHT");
+        MyGame.stateChanged = true;
+      }
+      if (event.code === "ArrowDown") {
+        MyGame.playerDirection = "DOWN";
+        MyGame.grid.move4Block("DOWN");
+        MyGame.stateChanged = true;
+      }
+      if (event.code === "ArrowLeft") {
+        MyGame.playerDirection = "LEFT";
+        MyGame.grid.move4Block("LEFT");
+        MyGame.stateChanged = true;
+      }
+    },
+    true
+  );
+}
+
 document.onreadystatechange = () => {
   if (document.readyState === "complete") {
     // document ready
-    console.log("Ready");
-
-    window.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.code === "Enter") {
-          console.log("Enter");
-          console.log(MyGame.stopMain);
-          window.cancelAnimationFrame(MyGame.stopMain);
-        }
-        if (event.code === "ArrowUp") {
-          MyGame.playerDirection = "UP";
-          MyGame.grid.move4Block("UP");
-          MyGame.stateChanged = true;
-        }
-        if (event.code === "ArrowRight") {
-          MyGame.playerDirection = "RIGHT";
-
-          MyGame.grid.move4Block("RIGHT");
-          MyGame.stateChanged = true;
-        }
-        if (event.code === "ArrowDown") {
-          MyGame.playerDirection = "DOWN";
-          MyGame.grid.move4Block("DOWN");
-          MyGame.stateChanged = true;
-        }
-        if (event.code === "ArrowLeft") {
-          MyGame.playerDirection = "LEFT";
-          MyGame.grid.move4Block("LEFT");
-          MyGame.stateChanged = true;
-        }
-      },
-      true
-    );
+    console.log("Readyx");
+    keyboardInput();
 
     (() => {
       function main(tFrame?: number) {
