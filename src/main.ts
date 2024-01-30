@@ -4,10 +4,9 @@ import playerImgUrl from "./player-sheet.png";
 import tomb1ImgUrl from "./tomb-1.png";
 import footImgUrl from "./foot.png";
 import bigFootRightImgUrl from "./bigfoot-right.png";
-import tlUrl from "./topleft.png";
-import trUrl from "./topright.png";
-import blUrl from "./bottomleft.png";
-import brUrl from "./bottomright.png";
+import bigFootLeftImgUrl from "./bigfoot-left.png";
+import bigFootUpImgUrl from "./bigfoot-up.png";
+import bigFootDownImgUrl from "./bigfoot-down.png";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -44,15 +43,14 @@ foot.src = footImgUrl;
 let footR = new Image();
 footR.src = bigFootRightImgUrl;
 
-let tl = new Image();
-tl.src = tlUrl;
+let footL = new Image();
+footL.src = bigFootLeftImgUrl;
 
-let tr = new Image();
-tr.src = trUrl;
-let bl = new Image();
-bl.src = blUrl;
-let br = new Image();
-br.src = brUrl;
+let footU = new Image();
+footU.src = bigFootUpImgUrl;
+
+let footD = new Image();
+footD.src = bigFootDownImgUrl;
 
 function doubleArray(arr: number[]): number[] {
   return arr.reduce((prev: number[], cur) => {
@@ -221,6 +219,51 @@ function draw() {
           }
         }
       }
+      if (cell === 3) {
+        if (rowIdx % 2 === 0) {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footL, "TL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footL, "TR", [rowIdx, colIdx], cellSize);
+          }
+        } else {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footL, "BL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footL, "BR", [rowIdx, colIdx], cellSize);
+          }
+        }
+      }
+      if (cell === 4) {
+        if (rowIdx % 2 === 0) {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footU, "TL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footU, "TR", [rowIdx, colIdx], cellSize);
+          }
+        } else {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footU, "BL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footU, "BR", [rowIdx, colIdx], cellSize);
+          }
+        }
+      }
+      if (cell === 5) {
+        if (rowIdx % 2 === 0) {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footD, "TL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footD, "TR", [rowIdx, colIdx], cellSize);
+          }
+        } else {
+          if (colIdx % 2 === 0) {
+            drawQuarterImage(footD, "BL", [rowIdx, colIdx], cellSize);
+          } else {
+            drawQuarterImage(footD, "BR", [rowIdx, colIdx], cellSize);
+          }
+        }
+      }
     });
   });
   drawPlayer(MyGame.playerDirection);
@@ -285,7 +328,7 @@ function keyboardInput() {
   window.addEventListener(
     "keydown",
     (event) => {
-      console.log("location", MyGame.grid.position);
+      // console.log("location", MyGame.grid.position);
       if (event.code === "Enter") {
         console.log("Enter");
         console.log(MyGame.stopMain);
@@ -294,30 +337,25 @@ function keyboardInput() {
       if (event.code === "ArrowUp") {
         MyGame.playerDirection = "UP";
         MyGame.grid.move4Block("UP");
-        // let pos = [...MyGame.grid.position];
-        // pos[1] += 1;
-        // MyGame.grid.set(pos, 2);
-        setBlockFromOrigin(MyGame.grid.position, 2);
+        setBlockFromOrigin(MyGame.grid.position, 4);
         MyGame.stateChanged = true;
       }
       if (event.code === "ArrowRight") {
         MyGame.playerDirection = "RIGHT";
         MyGame.grid.move4Block("RIGHT");
-        // MyGame.grid.set(MyGame.grid.position, 2);
         setBlockFromOrigin(MyGame.grid.position, 2);
         MyGame.stateChanged = true;
       }
       if (event.code === "ArrowDown") {
         MyGame.playerDirection = "DOWN";
         MyGame.grid.move4Block("DOWN");
-        // MyGame.grid.set(MyGame.grid.position, 2);
-        setBlockFromOrigin(MyGame.grid.position, 2);
+        setBlockFromOrigin(MyGame.grid.position, 5);
         MyGame.stateChanged = true;
       }
       if (event.code === "ArrowLeft") {
         MyGame.playerDirection = "LEFT";
         MyGame.grid.move4Block("LEFT");
-        setBlockFromOrigin(MyGame.grid.position, 2);
+        setBlockFromOrigin(MyGame.grid.position, 3);
         MyGame.stateChanged = true;
       }
     },
