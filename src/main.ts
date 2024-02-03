@@ -10,7 +10,8 @@ import bigFootDownImgUrl from "./bigfoot-down.png";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <canvas id="game-canvas" width="670" height="320"></canvas>
+    <h1>Oh Mummy!x</h1>
+    <canvas id="game-canvas" width="670" height="352"></canvas>
   </div>
 `;
 
@@ -180,21 +181,6 @@ function draw() {
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
   MyGame.grid.content.forEach((row, rowIdx) => {
     row.forEach((cell, colIdx) => {
-      if (cell === 0) {
-        MyGame.ctx.fillStyle = "#EE0000";
-        MyGame.ctx.fillRect(
-          cellSize * colIdx,
-          cellSize * rowIdx,
-          cellSize,
-          cellSize
-        );
-        MyGame.ctx.strokeRect(
-          cellSize * colIdx,
-          cellSize * rowIdx,
-          cellSize,
-          cellSize
-        );
-      }
       if (cell === 1) {
         MyGame.ctx.fillStyle = "#000000";
         MyGame.ctx.fillRect(
@@ -276,6 +262,7 @@ function update(tFrame?: number) {
 
 function initPlayfield() {
   return [
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -293,7 +280,7 @@ function initTombs(): Tomb[] {
   let tombs = [];
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col <= 5; col++) {
-      tombs.push(new Tomb(col * 8 + 2, row * 6 + 2));
+      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4));
     }
   }
   return tombs;
@@ -316,6 +303,7 @@ function initContext(): GameConfig {
 }
 
 const MyGame = initContext();
+MyGame.grid.position = [16, 0];
 
 function setBlockFromOrigin(origin: Point, val: any) {
   MyGame.grid.set([...origin], val);
