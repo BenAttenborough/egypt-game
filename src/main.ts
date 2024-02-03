@@ -7,10 +7,11 @@ import bigFootLeftImgUrl from "./bigfoot-left.png";
 import bigFootUpImgUrl from "./bigfoot-up.png";
 import bigFootDownImgUrl from "./bigfoot-down.png";
 import { Player } from "./objects/player";
+import { Tomb } from "./objects/tomb";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <h1>Oh Mummy!x</h1>
+    <h1>Oh Mummy!</h1>
     <canvas id="game-canvas" width="670" height="352"></canvas>
   </div>
 `;
@@ -21,7 +22,6 @@ type GameConfig = {
   stopMain: number;
   ctx: CanvasRenderingContext2D;
   grid: Grid;
-  render: () => void;
   stateChanged: boolean;
   playerDirection: Direction;
   tombs: Tomb[];
@@ -30,36 +30,13 @@ type GameConfig = {
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
 const cellSize = 16;
-const spriteSize = 32;
 
 const playerImg = getImage(playerImgUrl);
-const tomb1 = getImage(tomb1ImgUrl);
+const tombImg = getImage(tomb1ImgUrl);
 const footR = getImage(bigFootRightImgUrl);
 const footL = getImage(bigFootLeftImgUrl);
 const footU = getImage(bigFootUpImgUrl);
 const footD = getImage(bigFootDownImgUrl);
-
-class Tomb {
-  x;
-  y;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  draw() {
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col <= 5; col++) {
-        MyGame.ctx.drawImage(
-          tomb1,
-          this.x * cellSize + col * cellSize,
-          this.y * cellSize + row * cellSize
-        );
-      }
-    }
-  }
-}
 
 const MyGame = initContext();
 MyGame.grid.position = [16, 0];
@@ -234,11 +211,11 @@ function initPlayfield() {
   ];
 }
 
-function initTombs(): Tomb[] {
+function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   let tombs = [];
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col <= 5; col++) {
-      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4));
+      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4, ctx, tombImg));
     }
   }
   return tombs;
@@ -249,14 +226,14 @@ function initContext(): GameConfig {
   if (!canvas.getContext) {
     throw new Error("No canvas found!");
   }
+  const ctx = canvas.getContext("2d");
   return {
     stopMain: 0,
-    ctx: canvas.getContext("2d")!,
+    ctx: ctx!,
     grid: new Grid(doubleArrayArray(initPlayfield())),
-    render: draw,
     stateChanged: true,
     playerDirection: "DOWN",
-    tombs: initTombs(),
+    tombs: initTombs(ctx!),
   };
 }
 
