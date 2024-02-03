@@ -2,11 +2,11 @@ import "./style.css";
 import { Grid } from "./grid";
 import playerImgUrl from "./player-sheet.png";
 import tomb1ImgUrl from "./tomb-1.png";
-import footImgUrl from "./foot.png";
 import bigFootRightImgUrl from "./bigfoot-right.png";
 import bigFootLeftImgUrl from "./bigfoot-left.png";
 import bigFootUpImgUrl from "./bigfoot-up.png";
 import bigFootDownImgUrl from "./bigfoot-down.png";
+import { Player } from "./objects/player";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -32,26 +32,49 @@ type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 const cellSize = 16;
 const spriteSize = 32;
 
-let player = new Image();
-player.src = playerImgUrl;
+const playerImg = getImage(playerImgUrl);
+const tomb1 = getImage(tomb1ImgUrl);
+const footR = getImage(bigFootRightImgUrl);
+const footL = getImage(bigFootLeftImgUrl);
+const footU = getImage(bigFootUpImgUrl);
+const footD = getImage(bigFootDownImgUrl);
 
-let tomb1 = new Image();
-tomb1.src = tomb1ImgUrl;
+class Tomb {
+  x;
+  y;
 
-let foot = new Image();
-foot.src = footImgUrl;
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
 
-let footR = new Image();
-footR.src = bigFootRightImgUrl;
+  draw() {
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col <= 5; col++) {
+        MyGame.ctx.drawImage(
+          tomb1,
+          this.x * cellSize + col * cellSize,
+          this.y * cellSize + row * cellSize
+        );
+      }
+    }
+  }
+}
 
-let footL = new Image();
-footL.src = bigFootLeftImgUrl;
+const MyGame = initContext();
+MyGame.grid.position = [16, 0];
 
-let footU = new Image();
-footU.src = bigFootUpImgUrl;
+const player = new Player(MyGame.ctx, playerImg, stopMain);
 
-let footD = new Image();
-footD.src = bigFootDownImgUrl;
+function getImage(
+  url: string,
+  width?: number,
+  height?: number
+): HTMLImageElement {
+  let image = new Image(width, height);
+  image.src = url;
+  return image;
+}
 
 function doubleArray(arr: number[]): number[] {
   return arr.reduce((prev: number[], cur) => {
@@ -65,54 +88,11 @@ function doubleArrayArray(arr: number[][]): number[][] {
   }, []);
 }
 
-function drawPlayer(direction: Direction) {
-  let offSet = 0;
-  switch (direction) {
-    case "UP":
-      offSet = 6 * spriteSize;
-      if (MyGame.grid.position[1] % 2 === 0) {
-        offSet += spriteSize;
-      }
-      break;
-    case "RIGHT":
-      offSet = 0;
-      if (MyGame.grid.position[0] % 2 === 0) {
-        offSet += spriteSize;
-      }
-      break;
-    case "DOWN":
-      offSet = 4 * spriteSize;
-      if (MyGame.grid.position[1] % 2 === 0) {
-        offSet += spriteSize;
-      }
-      break;
-    case "LEFT":
-      offSet = 2 * spriteSize;
-      if (MyGame.grid.position[0] % 2 === 0) {
-        offSet += spriteSize;
-      }
-      break;
-  }
-
-  try {
-    MyGame.ctx.drawImage(
-      player,
-      offSet,
-      0,
-      spriteSize,
-      spriteSize,
-      MyGame.grid.position[0] * cellSize,
-      MyGame.grid.position[1] * cellSize,
-      spriteSize,
-      spriteSize
-    );
-  } catch (error) {
-    window.cancelAnimationFrame(MyGame.stopMain);
-    throw new Error(`Error loading image: ${player.currentSrc}`);
-  }
-}
-
 type Quadrant = "TL" | "TR" | "BL" | "BR";
+
+function stopMain() {
+  window.cancelAnimationFrame(MyGame.stopMain);
+}
 
 function drawQuarterImage(
   image: HTMLImageElement,
@@ -152,28 +132,6 @@ function drawQuarterImage(
     quadSize,
     quadSize
   );
-}
-
-class Tomb {
-  x;
-  y;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  draw() {
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col <= 5; col++) {
-        MyGame.ctx.drawImage(
-          tomb1,
-          this.x * cellSize + col * cellSize,
-          this.y * cellSize + row * cellSize
-        );
-      }
-    }
-  }
 }
 
 function draw() {
@@ -252,7 +210,7 @@ function draw() {
       }
     });
   });
-  drawPlayer(MyGame.playerDirection);
+  player.drawPlayer(MyGame.playerDirection, MyGame.grid.position);
   MyGame.tombs.forEach((tomb) => tomb.draw());
 }
 
@@ -301,9 +259,6 @@ function initContext(): GameConfig {
     tombs: initTombs(),
   };
 }
-
-const MyGame = initContext();
-MyGame.grid.position = [16, 0];
 
 function setBlockFromOrigin(origin: Point, val: any) {
   MyGame.grid.set([...origin], val);
@@ -354,7 +309,6 @@ function keyboardInput() {
 document.onreadystatechange = () => {
   if (document.readyState === "complete") {
     // document ready
-    console.log("Readyx");
     keyboardInput();
 
     (() => {
