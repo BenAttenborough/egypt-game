@@ -1,12 +1,12 @@
 export class Grid {
   content: any[][];
-  position: Grid.Point;
-  constructor(content: any, position?: Grid.Point) {
+  position: Point;
+  constructor(content: any, position?: Point) {
     this.content = content;
     this.position = position || [0, 0];
   }
 
-  get([x, y]: Grid.Point): any {
+  get([x, y]: Point): any {
     return this.content[y]?.[x];
   }
 
@@ -18,7 +18,7 @@ export class Grid {
     return this.get(this.position);
   }
 
-  set([x, y]: Grid.Point, data: any) {
+  set([x, y]: Point, data: any) {
     this.content[y][x] = data;
   }
 
@@ -44,7 +44,7 @@ export class Grid {
       .map((values) => gridReducer(values));
   }
 
-  private checkPosition(pos: Grid.Point): boolean {
+  private checkPosition(pos: Point): boolean {
     if (this.getRow(pos[1]) && this.get(pos)) {
       return true;
     }
@@ -52,12 +52,12 @@ export class Grid {
     return false;
   }
 
-  setPosition([x, y]: Grid.Point) {
+  setPosition([x, y]: Point) {
     this.position = [y, x];
   }
 
-  move(direction: Grid.Direction) {
-    let proposedPosition: Grid.Point = [...this.position];
+  move(direction: Direction) {
+    let proposedPosition: Point = [...this.position];
     switch (direction) {
       case "UP":
         proposedPosition[1] -= 1;
@@ -78,10 +78,10 @@ export class Grid {
     }
   }
 
-  move4Block(direction: Grid.Direction) {
-    let proposedPosition: Grid.Point = [...this.position];
-    let colliderA: Grid.Point = [...this.position];
-    let colliderB: Grid.Point = [...this.position];
+  move4Block(direction: Direction) {
+    let proposedPosition: Point = [...this.position];
+    let colliderA: Point = [...this.position];
+    let colliderB: Point = [...this.position];
 
     switch (direction) {
       case "UP":
@@ -117,7 +117,7 @@ export class Grid {
     this.position = proposedPosition;
   }
 
-  findFirst(needle: any): Grid.Point {
+  findFirst(needle: any): Point {
     for (let y = 0; y < this.content.length; y++) {
       for (let x = 0; x < this.content[y].length; x++) {
         if (this.content[y][x] === needle) {
@@ -134,7 +134,7 @@ export class Grid {
     }
   }
 
-  getOrthogonalValues([x, y]: Grid.Point): any[] {
+  getOrthogonalValues([x, y]: Point): any[] {
     let values: any = [];
     this.pushIf(values, this.get([x, y - 1]));
     this.pushIf(values, this.get([x + 1, y]));
@@ -152,9 +152,4 @@ export class Grid {
   getOrthogonalValuesFromCurrentPosition(): any[] {
     return this.getOrthogonalValues(this.position);
   }
-}
-
-module Grid {
-  export type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
-  export type Point = [number, number];
 }

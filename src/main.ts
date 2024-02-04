@@ -10,6 +10,7 @@ import { Player } from "./objects/player";
 import { Tomb } from "./objects/tomb";
 import { drawQuarterImage } from "./helpers/render";
 import { initPlayfield } from "./objects/playfield";
+import { handleKeyboardInput } from "./input/keyboardInput";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -17,15 +18,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <canvas id="game-canvas" width="670" height="352"></canvas>
   </div>
 `;
-
-type GameConfig = {
-  stopMain: number;
-  ctx: CanvasRenderingContext2D;
-  grid: Grid;
-  stateChanged: boolean;
-  playerDirection: Direction;
-  tombs: Tomb[];
-};
 
 const cellSize = 16;
 
@@ -70,8 +62,8 @@ function stopMain() {
 function draw() {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  MyGame.grid.content.forEach((row, rowIdx) => {
-    row.forEach((cell, colIdx) => {
+  MyGame.grid.content.forEach((row, rowIdx: number) => {
+    row.forEach((cell, colIdx: number) => {
       if (cell === 1) {
         MyGame.ctx.fillStyle = "#000000";
         MyGame.ctx.fillRect(
@@ -273,50 +265,10 @@ function initContext(): GameConfig {
   };
 }
 
-function setBlockFromOrigin(origin: Point, val: any) {
-  MyGame.grid.set([...origin], val);
-  MyGame.grid.set([origin[0] + 1, origin[1]], val);
-  MyGame.grid.set([origin[0], origin[1] + 1], val);
-  MyGame.grid.set([origin[0] + 1, origin[1] + 1], val);
-}
-
 function keyboardInput() {
-  window.addEventListener(
-    "keydown",
-    (event) => {
-      // console.log("location", MyGame.grid.position);
-      if (event.code === "Enter") {
-        console.log("Enter");
-        console.log(MyGame.stopMain);
-        window.cancelAnimationFrame(MyGame.stopMain);
-      }
-      if (event.code === "ArrowUp") {
-        MyGame.playerDirection = "UP";
-        MyGame.grid.move4Block("UP");
-        setBlockFromOrigin(MyGame.grid.position, 4);
-        MyGame.stateChanged = true;
-      }
-      if (event.code === "ArrowRight") {
-        MyGame.playerDirection = "RIGHT";
-        MyGame.grid.move4Block("RIGHT");
-        setBlockFromOrigin(MyGame.grid.position, 2);
-        MyGame.stateChanged = true;
-      }
-      if (event.code === "ArrowDown") {
-        MyGame.playerDirection = "DOWN";
-        MyGame.grid.move4Block("DOWN");
-        setBlockFromOrigin(MyGame.grid.position, 5);
-        MyGame.stateChanged = true;
-      }
-      if (event.code === "ArrowLeft") {
-        MyGame.playerDirection = "LEFT";
-        MyGame.grid.move4Block("LEFT");
-        setBlockFromOrigin(MyGame.grid.position, 3);
-        MyGame.stateChanged = true;
-      }
-    },
-    true
-  );
+  window.addEventListener("keydown", (event) => {
+    handleKeyboardInput(event, MyGame, stopMain);
+  });
 }
 
 document.onreadystatechange = () => {
