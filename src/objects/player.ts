@@ -1,9 +1,3 @@
-type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
-type Point = [number, number];
-// type drawImageConfig = {
-//     image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
-// }
-
 export class Player {
   spriteSize: number;
   cellSize: number;

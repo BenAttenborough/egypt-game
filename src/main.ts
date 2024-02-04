@@ -8,6 +8,8 @@ import bigFootUpImgUrl from "./bigfoot-up.png";
 import bigFootDownImgUrl from "./bigfoot-down.png";
 import { Player } from "./objects/player";
 import { Tomb } from "./objects/tomb";
+import { drawQuarterImage } from "./helpers/render";
+import { initPlayfield } from "./objects/playfield";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -15,8 +17,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <canvas id="game-canvas" width="670" height="352"></canvas>
   </div>
 `;
-
-type Point = [number, number];
 
 type GameConfig = {
   stopMain: number;
@@ -26,8 +26,6 @@ type GameConfig = {
   playerDirection: Direction;
   tombs: Tomb[];
 };
-
-type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
 const cellSize = 16;
 
@@ -65,50 +63,8 @@ function doubleArrayArray(arr: number[][]): number[][] {
   }, []);
 }
 
-type Quadrant = "TL" | "TR" | "BL" | "BR";
-
 function stopMain() {
   window.cancelAnimationFrame(MyGame.stopMain);
-}
-
-function drawQuarterImage(
-  image: HTMLImageElement,
-  quadrant: Quadrant,
-  position: Point,
-  quadSize: number
-) {
-  let offSetX = 0;
-  let offSetY = 0;
-  switch (quadrant) {
-    case "TL":
-      offSetX = 0;
-      offSetY = 0;
-      break;
-    case "TR":
-      offSetX = quadSize;
-      offSetY = 0;
-      break;
-    case "BL":
-      offSetX = 0;
-      offSetY = quadSize;
-      break;
-    case "BR":
-      offSetX = quadSize;
-      offSetY = quadSize;
-      break;
-  }
-
-  MyGame.ctx.drawImage(
-    image,
-    offSetX,
-    offSetY,
-    quadSize,
-    quadSize,
-    cellSize * position[1],
-    cellSize * position[0],
-    quadSize,
-    quadSize
-  );
 }
 
 function draw() {
@@ -128,60 +84,156 @@ function draw() {
       if (cell === 2) {
         if (rowIdx % 2 === 0) {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footR, "TL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footR,
+              "TL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footR, "TR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footR,
+              "TR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         } else {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footR, "BL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footR,
+              "BL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footR, "BR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footR,
+              "BR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         }
       }
       if (cell === 3) {
         if (rowIdx % 2 === 0) {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footL, "TL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footL,
+              "TL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footL, "TR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footL,
+              "TR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         } else {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footL, "BL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footL,
+              "BL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footL, "BR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footL,
+              "BR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         }
       }
       if (cell === 4) {
         if (rowIdx % 2 === 0) {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footU, "TL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footU,
+              "TL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footU, "TR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footU,
+              "TR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         } else {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footU, "BL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footU,
+              "BL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footU, "BR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footU,
+              "BR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         }
       }
       if (cell === 5) {
         if (rowIdx % 2 === 0) {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footD, "TL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footD,
+              "TL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footD, "TR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footD,
+              "TR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         } else {
           if (colIdx % 2 === 0) {
-            drawQuarterImage(footD, "BL", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footD,
+              "BL",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           } else {
-            drawQuarterImage(footD, "BR", [rowIdx, colIdx], cellSize);
+            drawQuarterImage(
+              footD,
+              "BR",
+              [rowIdx, colIdx],
+              cellSize,
+              MyGame.ctx
+            );
           }
         }
       }
@@ -193,22 +245,6 @@ function draw() {
 
 function update(tFrame?: number) {
   tFrame;
-}
-
-function initPlayfield() {
-  return [
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  ];
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
