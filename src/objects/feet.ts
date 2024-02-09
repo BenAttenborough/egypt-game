@@ -1,9 +1,13 @@
 import { drawQuarterImage } from "../helpers/render";
 
-export function drawFeet(gridContent, ctx, spriteSheetImg) {
+export function drawFeet(
+  gridContent: any,
+  ctx: CanvasRenderingContext2D,
+  spriteSheetImg: HTMLImageElement
+) {
   const cellSize = 16;
   const pixelCellSize = 32;
-  gridContent.forEach((row, rowIdx: number) => {
+  gridContent.forEach((row: number[], rowIdx: number) => {
     row.forEach((cell, colIdx: number) => {
       if (cell === 1) {
         ctx.fillStyle = "#000000";
