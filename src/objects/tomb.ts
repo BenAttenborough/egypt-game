@@ -5,6 +5,7 @@ export class Tomb {
   cellSize: number;
   playerImage: HTMLImageElement;
   open = false;
+  neighbouringCells: number[][];
 
   constructor(
     x: number,
@@ -17,6 +18,25 @@ export class Tomb {
     this.ctx = ctx;
     this.cellSize = 16;
     this.playerImage = playerImage;
+    this.neighbouringCells = this.getNeighbouringCells();
+  }
+
+  getNeighbouringCells(): number[][] {
+    let container: number[][] = [];
+    for (let row = -1; row < 5; row++) {
+      for (let col = -1; col <= 6; col++) {
+        container.push([row, col]);
+      }
+    }
+    return container;
+  }
+
+  printCellValues(grid) {
+    grid.forEach((row) => {
+      row.forEach((col) => {
+        console.log(col);
+      });
+    });
   }
 
   draw() {
