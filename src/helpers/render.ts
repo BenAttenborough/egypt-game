@@ -3,27 +3,22 @@ export function drawQuarterImage(
   quadrant: Quadrant,
   position: Point,
   quadSize: number,
-  ctx: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D,
+  offSetX: number = 0,
+  offSetY: number = 0
 ) {
-  let offSetX = 0;
-  let offSetY = 0;
   let cellSize = 16;
+  console.log("offSetY", offSetY);
   switch (quadrant) {
-    case "TL":
-      offSetX = 0;
-      offSetY = 0;
-      break;
     case "TR":
-      offSetX = quadSize;
-      offSetY = 0;
+      offSetX += quadSize;
       break;
     case "BL":
-      offSetX = 0;
-      offSetY = quadSize;
+      offSetY += quadSize;
       break;
     case "BR":
-      offSetX = quadSize;
-      offSetY = quadSize;
+      offSetX += quadSize;
+      offSetY += quadSize;
       break;
   }
 

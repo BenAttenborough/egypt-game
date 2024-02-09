@@ -1,14 +1,9 @@
 import "./style.css";
 import { Grid } from "./grid";
-import playerImgUrl from "./player-sheet.png";
-import tomb1ImgUrl from "./tomb-1.png";
-import bigFootRightImgUrl from "./bigfoot-right.png";
-import bigFootLeftImgUrl from "./bigfoot-left.png";
-import bigFootUpImgUrl from "./bigfoot-up.png";
-import bigFootDownImgUrl from "./bigfoot-down.png";
+import spriteSheet from "./sprite-sheet.png";
 import { Player } from "./objects/player";
 import { Tomb } from "./objects/tomb";
-import { drawQuarterImage } from "./helpers/render";
+import { drawFeet } from "./objects/feet";
 import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
 
@@ -19,29 +14,13 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
 `;
 
-const cellSize = 16;
-
-const playerImg = getImage(playerImgUrl);
-const tombImg = getImage(tomb1ImgUrl);
-const footR = getImage(bigFootRightImgUrl);
-const footL = getImage(bigFootLeftImgUrl);
-const footU = getImage(bigFootUpImgUrl);
-const footD = getImage(bigFootDownImgUrl);
+const spriteSheetImg = new Image();
+spriteSheetImg.src = spriteSheet;
 
 const MyGame = initContext();
 MyGame.grid.position = [16, 0];
 
-const player = new Player(MyGame.ctx, playerImg, stopMain);
-
-function getImage(
-  url: string,
-  width?: number,
-  height?: number
-): HTMLImageElement {
-  let image = new Image(width, height);
-  image.src = url;
-  return image;
-}
+const player = new Player(MyGame.ctx, spriteSheetImg, stopMain);
 
 function doubleArray(arr: number[]): number[] {
   return arr.reduce((prev: number[], cur) => {
@@ -62,175 +41,7 @@ function stopMain() {
 function draw() {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  MyGame.grid.content.forEach((row, rowIdx: number) => {
-    row.forEach((cell, colIdx: number) => {
-      if (cell === 1) {
-        MyGame.ctx.fillStyle = "#000000";
-        MyGame.ctx.fillRect(
-          cellSize * colIdx,
-          cellSize * rowIdx,
-          cellSize,
-          cellSize
-        );
-      }
-      if (cell === 2) {
-        if (rowIdx % 2 === 0) {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footR,
-              "TL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footR,
-              "TR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        } else {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footR,
-              "BL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footR,
-              "BR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        }
-      }
-      if (cell === 3) {
-        if (rowIdx % 2 === 0) {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footL,
-              "TL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footL,
-              "TR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        } else {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footL,
-              "BL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footL,
-              "BR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        }
-      }
-      if (cell === 4) {
-        if (rowIdx % 2 === 0) {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footU,
-              "TL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footU,
-              "TR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        } else {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footU,
-              "BL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footU,
-              "BR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        }
-      }
-      if (cell === 5) {
-        if (rowIdx % 2 === 0) {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footD,
-              "TL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footD,
-              "TR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        } else {
-          if (colIdx % 2 === 0) {
-            drawQuarterImage(
-              footD,
-              "BL",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          } else {
-            drawQuarterImage(
-              footD,
-              "BR",
-              [rowIdx, colIdx],
-              cellSize,
-              MyGame.ctx
-            );
-          }
-        }
-      }
-    });
-  });
+  drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
   player.drawPlayer(MyGame.playerDirection, MyGame.grid.position);
   MyGame.tombs.forEach((tomb) => tomb.draw());
 }
@@ -243,7 +54,7 @@ function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   let tombs = [];
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col <= 5; col++) {
-      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4, ctx, tombImg));
+      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4, ctx, spriteSheetImg));
     }
   }
   return tombs;

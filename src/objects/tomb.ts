@@ -24,8 +24,14 @@ export class Tomb {
       for (let col = 0; col <= 5; col++) {
         this.ctx.drawImage(
           this.playerImage,
+          0,
+          64,
+          16,
+          16,
           this.x * this.cellSize + col * this.cellSize,
-          this.y * this.cellSize + row * this.cellSize
+          this.y * this.cellSize + row * this.cellSize,
+          16,
+          16
         );
       }
     }
