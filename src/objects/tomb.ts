@@ -4,6 +4,7 @@ export class Tomb {
   ctx: CanvasRenderingContext2D;
   cellSize: number;
   playerImage: HTMLImageElement;
+  open = false;
 
   constructor(
     x: number,
