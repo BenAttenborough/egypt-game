@@ -48,6 +48,9 @@ function draw() {
 
 function update(tFrame?: number) {
   tFrame;
+  if (MyGame.keysPressed.ArrowRight) {
+    console.log("RIGHT");
+  }
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
@@ -73,12 +76,50 @@ function initContext(): GameConfig {
     stateChanged: true,
     playerDirection: "DOWN",
     tombs: initTombs(ctx!),
+    keysPressed: {
+      ArrowRight: false,
+      ArrowLeft: false,
+      ArrowUp: false,
+      ArrowDown: false,
+    },
   };
 }
 
 function keyboardInput() {
   window.addEventListener("keydown", (event) => {
     handleKeyboardInput(event, MyGame, stopMain);
+  });
+
+  // document.addEventListener("keydown", keyDownHandler, false);
+  // document.addEventListener("keyup", keyUpHandler, false);
+
+  // function keyDownHandler(e) {
+  //     if(e.code  == "ArrowRight") {
+  //         rightPressed = true;
+  //     }
+  //     else if(e.code == 'ArrowLeft') {
+  //         leftPressed = true;
+  //     }
+  // }
+  // function keyUpHandler(e) {
+  //     if(e.code == 'ArrowRight') {
+  //         rightPressed = false;
+  //     }
+  //     else if(e.code == 'ArrowLeft') {
+  //         leftPressed = false;
+  //     }
+  // }
+
+  window.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    if (MyGame.keysPressed.hasOwnProperty(e.code))
+      MyGame.keysPressed[e.code] = true;
+  });
+
+  window.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    if (MyGame.keysPressed.hasOwnProperty(e.code))
+      MyGame.keysPressed[e.code] = false;
   });
 }
 

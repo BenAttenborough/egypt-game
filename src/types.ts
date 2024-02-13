@@ -18,4 +18,10 @@ type GameConfig = {
   stateChanged: boolean;
   playerDirection: Direction;
   tombs: Tomb[];
+  keysPressed: {
+    ArrowRight: boolean;
+    ArrowLeft: boolean;
+    ArrowUp: boolean;
+    ArrowDown: boolean;
+  };
 };
