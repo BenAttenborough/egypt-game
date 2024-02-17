@@ -15,9 +15,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 `;
 
 let lastTick = performance.now();
-let precisePosition = [16, 0];
-let speed = 0.005;
-
 const spriteSheetImg = new Image();
 spriteSheetImg.src = spriteSheet;
 
@@ -53,64 +50,7 @@ function draw() {
 function update(tFrame = 0) {
   const delta = tFrame - lastTick;
   lastTick = tFrame;
-  if (MyGame.keysPressed.ArrowUp) {
-    precisePosition[1] -= speed * delta;
-    let absPostion = Math.round(precisePosition[1]);
-    if (absPostion <= MyGame.grid.position[1] - 1) {
-      MyGame.playerDirection = "UP";
-      MyGame.grid.move4Block("UP");
-      setBlockFromOrigin(MyGame, 4);
-      precisePosition[1] = MyGame.grid.position[1];
-      absPostion = MyGame.grid.position[1];
-      MyGame.stateChanged = true;
-    }
-  }
-  if (MyGame.keysPressed.ArrowDown) {
-    precisePosition[1] += speed * delta;
-    let absPostion = Math.round(precisePosition[1]);
-    if (absPostion >= MyGame.grid.position[1] + 1) {
-      MyGame.playerDirection = "DOWN";
-      MyGame.grid.move4Block("DOWN");
-      setBlockFromOrigin(MyGame, 5);
-      precisePosition[1] = MyGame.grid.position[1];
-      absPostion = MyGame.grid.position[1];
-      MyGame.stateChanged = true;
-    }
-  }
-  if (MyGame.keysPressed.ArrowLeft) {
-    precisePosition[0] -= speed * delta;
-    let absPostion = Math.round(precisePosition[0]);
-    if (absPostion <= MyGame.grid.position[0] - 1) {
-      MyGame.playerDirection = "LEFT";
-      MyGame.grid.move4Block("LEFT");
-      setBlockFromOrigin(MyGame, 3);
-      precisePosition[0] = MyGame.grid.position[0];
-      absPostion = MyGame.grid.position[0];
-      MyGame.stateChanged = true;
-    }
-  }
-  if (MyGame.keysPressed.ArrowRight) {
-    precisePosition[0] += speed * delta;
-    let absPostion = Math.round(precisePosition[0]);
-    if (absPostion >= MyGame.grid.position[0] + 1) {
-      MyGame.playerDirection = "RIGHT";
-      MyGame.grid.move4Block("RIGHT");
-      setBlockFromOrigin(MyGame, 2);
-      precisePosition[0] = MyGame.grid.position[0];
-      absPostion = MyGame.grid.position[0];
-      MyGame.stateChanged = true;
-    }
-  }
-}
-
-function setBlockFromOrigin(MyGame: any, val: any) {
-  MyGame.grid.set([...MyGame.grid.position], val);
-  MyGame.grid.set([MyGame.grid.position[0] + 1, MyGame.grid.position[1]], val);
-  MyGame.grid.set([MyGame.grid.position[0], MyGame.grid.position[1] + 1], val);
-  MyGame.grid.set(
-    [MyGame.grid.position[0] + 1, MyGame.grid.position[1] + 1],
-    val
-  );
+  handleKeyboardInput(MyGame, delta);
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
@@ -133,6 +73,8 @@ function initContext(): GameConfig {
     stopMain: 0,
     ctx: ctx!,
     grid: new Grid(doubleArrayArray(initPlayfield())),
+    precisePosition: [16, 0],
+    speed: 0.005,
     stateChanged: true,
     playerDirection: "DOWN",
     tombs: initTombs(ctx!),

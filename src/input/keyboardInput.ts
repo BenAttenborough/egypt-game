@@ -9,37 +9,61 @@ function setBlockFromOrigin(MyGame: any, val: any) {
 }
 
 export function handleKeyboardInput(
-  event: KeyboardEvent,
   MyGame: GameConfig,
-  stopMain: () => void
+  delta: number
+  // stopMain: () => void
 ) {
-  if (event.code === "Enter") {
-    console.log("Enter");
-    console.log(MyGame.stopMain);
-    stopMain;
+  // if (key === "Enter") {
+  //   console.log("Enter");
+  //   console.log(MyGame.stopMain);
+  //   stopMain;
+  // }
+  if (MyGame.keysPressed.ArrowUp) {
+    MyGame.precisePosition[1] -= MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.precisePosition[1]);
+    if (absPostion <= MyGame.grid.position[1] - 1) {
+      MyGame.playerDirection = "UP";
+      MyGame.grid.move4Block("UP");
+      setBlockFromOrigin(MyGame, 4);
+      MyGame.precisePosition[1] = MyGame.grid.position[1];
+      absPostion = MyGame.grid.position[1];
+      MyGame.stateChanged = true;
+    }
   }
-  if (event.code === "ArrowUp") {
-    MyGame.playerDirection = "UP";
-    MyGame.grid.move4Block("UP");
-    setBlockFromOrigin(MyGame, 4);
-    MyGame.stateChanged = true;
+  if (MyGame.keysPressed.ArrowDown) {
+    MyGame.precisePosition[1] += MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.precisePosition[1]);
+    if (absPostion >= MyGame.grid.position[1] + 1) {
+      MyGame.playerDirection = "DOWN";
+      MyGame.grid.move4Block("DOWN");
+      setBlockFromOrigin(MyGame, 5);
+      MyGame.precisePosition[1] = MyGame.grid.position[1];
+      absPostion = MyGame.grid.position[1];
+      MyGame.stateChanged = true;
+    }
   }
-  if (event.code === "ArrowRight") {
-    MyGame.playerDirection = "RIGHT";
-    MyGame.grid.move4Block("RIGHT");
-    setBlockFromOrigin(MyGame, 2);
-    MyGame.stateChanged = true;
+  if (MyGame.keysPressed.ArrowLeft) {
+    MyGame.precisePosition[0] -= MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.precisePosition[0]);
+    if (absPostion <= MyGame.grid.position[0] - 1) {
+      MyGame.playerDirection = "LEFT";
+      MyGame.grid.move4Block("LEFT");
+      setBlockFromOrigin(MyGame, 3);
+      MyGame.precisePosition[0] = MyGame.grid.position[0];
+      absPostion = MyGame.grid.position[0];
+      MyGame.stateChanged = true;
+    }
   }
-  if (event.code === "ArrowDown") {
-    MyGame.playerDirection = "DOWN";
-    MyGame.grid.move4Block("DOWN");
-    setBlockFromOrigin(MyGame, 5);
-    MyGame.stateChanged = true;
-  }
-  if (event.code === "ArrowLeft") {
-    MyGame.playerDirection = "LEFT";
-    MyGame.grid.move4Block("LEFT");
-    setBlockFromOrigin(MyGame, 3);
-    MyGame.stateChanged = true;
+  if (MyGame.keysPressed.ArrowRight) {
+    MyGame.precisePosition[0] += MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.precisePosition[0]);
+    if (absPostion >= MyGame.grid.position[0] + 1) {
+      MyGame.playerDirection = "RIGHT";
+      MyGame.grid.move4Block("RIGHT");
+      setBlockFromOrigin(MyGame, 2);
+      MyGame.precisePosition[0] = MyGame.grid.position[0];
+      absPostion = MyGame.grid.position[0];
+      MyGame.stateChanged = true;
+    }
   }
 }

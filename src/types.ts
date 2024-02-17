@@ -15,6 +15,8 @@ type GameConfig = {
   stopMain: number;
   ctx: CanvasRenderingContext2D;
   grid: Grid;
+  precisePosition: Point;
+  speed: number;
   stateChanged: boolean;
   playerDirection: Direction;
   tombs: Tomb[];
