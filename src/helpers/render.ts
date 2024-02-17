@@ -8,7 +8,6 @@ export function drawQuarterImage(
   offSetY: number = 0
 ) {
   let cellSize = 16;
-  console.log("offSetY", offSetY);
   switch (quadrant) {
     case "TR":
       offSetX += quadSize;

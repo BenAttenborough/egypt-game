@@ -31,7 +31,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: yellow;
+  /* background-color: yellow; */
+  background-color: #1a1a1a;
 }
 
 h1 {
