@@ -5,7 +5,7 @@ export class Tomb {
   cellSize: number;
   playerImage: HTMLImageElement;
   open = false;
-  neighbouringCells: number[][];
+  neighbouringCells: Point[];
 
   constructor(
     x: number,
@@ -21,13 +21,28 @@ export class Tomb {
     this.neighbouringCells = this.getNeighbouringCells();
   }
 
-  getNeighbouringCells(): number[][] {
-    let container: number[][] = [];
-    for (let row = -1; row < 5; row++) {
-      for (let col = -1; col <= 6; col++) {
-        container.push([row, col]);
-      }
+  getNeighbouringCells(): Point[] {
+    let container: Point[] = [];
+    // for (let row = -1; row < 5; row++) {
+    //   for (let col = -1; col <= 6; col++) {
+    //     container.push([col + this.x, row + this.y]);
+    //   }
+    // }
+    // Do top and bottom rows
+    let row = -1;
+    for (let col = -1; col <= 6; col++) {
+      container.push([col + this.x, row + this.y]);
     }
+    row = 5;
+    for (let col = -1; col <= 6; col++) {
+      container.push([col + this.x, row + this.y]);
+    }
+    // Do sides
+    for (let row = 0; row < 4; row++) {
+      container.push([this.x - 1, this.y + row]);
+      container.push([this.x + 6, this.y + row]);
+    }
+
     return container;
   }
 
@@ -44,8 +59,8 @@ export class Tomb {
       for (let col = 0; col <= 5; col++) {
         this.ctx.drawImage(
           this.playerImage,
-          0,
-          64,
+          128,
+          32,
           16,
           16,
           this.x * this.cellSize + col * this.cellSize,

@@ -5,11 +5,13 @@ type Grid = {
   content: any[][];
   position: Point;
   move4Block: (direction: Direction) => void;
+  get: (point: Point) => any;
 };
 
 type Tomb = {
   open: boolean;
   draw: () => void;
+  neighbouringCells: Point[];
 };
 type GameConfig = {
   stopMain: number;

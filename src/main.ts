@@ -1,11 +1,12 @@
 import "./style.css";
 import { Grid } from "./grid";
-import spriteSheet from "./sprite-sheet.png";
+import spriteSheet from "./sprite-sheet2.png";
 import { Player } from "./objects/player";
 import { Tomb } from "./objects/tomb";
 import { drawFeet } from "./objects/feet";
 import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
+import { doubleArrayArray } from "./helpers/util";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -22,18 +23,6 @@ const MyGame = initContext();
 MyGame.grid.position = [16, 0];
 
 const player = new Player(MyGame.ctx, spriteSheetImg, stopMain);
-
-function doubleArray(arr: number[]): number[] {
-  return arr.reduce((prev: number[], cur) => {
-    return prev.concat([cur, cur]);
-  }, []);
-}
-
-function doubleArrayArray(arr: number[][]): number[][] {
-  return arr.reduce((prev: number[][], cur) => {
-    return prev.concat([doubleArray(cur), doubleArray(cur)]);
-  }, []);
-}
 
 function stopMain() {
   window.cancelAnimationFrame(MyGame.stopMain);
@@ -88,10 +77,6 @@ function initContext(): GameConfig {
 }
 
 function keyboardInput() {
-  // window.addEventListener("keydown", (event) => {
-  //   handleKeyboardInput(event, MyGame, stopMain);
-  // });
-
   window.addEventListener("keydown", (e) => {
     e.preventDefault();
     if (MyGame.keysPressed.hasOwnProperty(e.code))
@@ -105,6 +90,22 @@ function keyboardInput() {
   });
 }
 
+function checkTombs() {
+  console.log("Chce");
+  console.log(MyGame.tombs[0]);
+  // console.log(MyGame.grid.get([1, 3]));
+  // MyGame.tombs[0].neighbouringCells.forEach((point) => {
+  //   console.log(MyGame.grid.get(point));
+  // });
+  if (
+    MyGame.tombs[0].neighbouringCells.every(
+      (point) => MyGame.grid.get(point) > 1
+    )
+  ) {
+    console.log("OPEN!");
+  }
+}
+
 document.onreadystatechange = () => {
   if (document.readyState === "complete") {
     // document ready
@@ -116,6 +117,7 @@ document.onreadystatechange = () => {
 
         update(tFrame); // Call your update method. In our case, we give it rAF's timestamp.
         if (MyGame.stateChanged) {
+          checkTombs();
           draw();
         }
         MyGame.stateChanged = false;
