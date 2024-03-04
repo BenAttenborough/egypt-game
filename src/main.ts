@@ -2,7 +2,7 @@ import "./style.css";
 import { Grid } from "./grid";
 import spriteSheet from "./sprite-sheet2.png";
 import { Player } from "./objects/player";
-import { Tomb } from "./objects/tomb";
+import { Tomb, tombTypes } from "./objects/tomb";
 import { drawFeet } from "./objects/feet";
 import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
@@ -43,12 +43,22 @@ function update(tFrame = 0) {
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
+  // console.log(tombTypes);
   let tombs = [];
+  let types = tombTypes.sort(() => (Math.random() > 0.5 ? 1 : -1));
+  let i = 0;
   for (let row = 0; row < 3; row++) {
-    for (let col = 0; col <= 5; col++) {
-      tombs.push(new Tomb(col * 8 + 2, row * 6 + 4, ctx, spriteSheetImg));
+    for (let col = 0; col < 5; col++) {
+      tombs.push(
+        new Tomb(col * 8 + 2, row * 6 + 4, ctx, spriteSheetImg, types[i])
+      );
+      i++;
     }
   }
+  // console.log(tombs);
+  // tombs.sort(() => (Math.random() > 0.5 ? 1 : -1));
+  // console.log(tombs);
+
   return tombs;
 }
 

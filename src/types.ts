@@ -8,11 +8,14 @@ type Grid = {
   get: (point: Point) => any;
 };
 
+type TombType = "EMPTY" | "KEY" | "SCROLL" | "COFFIN" | "TREASURE" | "MUMMY";
+
 type Tomb = {
   open: boolean;
   draw: () => void;
   neighbouringCells: Point[];
 };
+
 type GameConfig = {
   stopMain: number;
   ctx: CanvasRenderingContext2D;

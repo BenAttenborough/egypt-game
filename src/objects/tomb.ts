@@ -6,12 +6,14 @@ export class Tomb {
   playerImage: HTMLImageElement;
   open = false;
   neighbouringCells: Point[];
+  type: TombType;
 
   constructor(
     x: number,
     y: number,
     ctx: CanvasRenderingContext2D,
-    playerImage: HTMLImageElement
+    playerImage: HTMLImageElement,
+    type: TombType
   ) {
     this.x = x;
     this.y = y;
@@ -19,6 +21,7 @@ export class Tomb {
     this.cellSize = 16;
     this.playerImage = playerImage;
     this.neighbouringCells = this.getNeighbouringCells();
+    this.type = type;
   }
 
   getNeighbouringCells(): Point[] {
@@ -50,21 +53,81 @@ export class Tomb {
   }
 
   draw() {
-    let offset = this.open ? 32 : 0;
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col <= 5; col++) {
-        this.ctx.drawImage(
-          this.playerImage,
-          128 + offset,
-          32,
-          16,
-          16,
-          this.x * this.cellSize + col * this.cellSize,
-          this.y * this.cellSize + row * this.cellSize,
-          16,
-          16
-        );
+    if (!this.open) {
+      this.ctx.drawImage(
+        this.playerImage,
+        0,
+        64,
+        96,
+        64,
+        this.x * this.cellSize,
+        this.y * this.cellSize,
+        96,
+        64
+      );
+    } else {
+      let offSetX: number;
+      let offSetY: number;
+      switch (this.type) {
+        case "EMPTY":
+          offSetX = 96;
+          offSetY = 64;
+          break;
+        case "KEY":
+          offSetX = 0;
+          offSetY = 128;
+          break;
+        case "SCROLL":
+          offSetX = 96;
+          offSetY = 192;
+          break;
+        case "COFFIN":
+          offSetX = 0;
+          offSetY = 192;
+          break;
+        case "TREASURE":
+          offSetX = 96;
+          offSetY = 128;
+          break;
+        case "MUMMY":
+          offSetX = 0;
+          offSetY = 64;
+          break;
       }
+      this.ctx.drawImage(
+        this.playerImage,
+        offSetX,
+        offSetY,
+        96,
+        64,
+        this.x * this.cellSize,
+        this.y * this.cellSize,
+        96,
+        64
+      );
     }
   }
 }
+
+export let tombTypes: TombType[] = [
+  "KEY",
+  "COFFIN",
+  "SCROLL",
+  "EMPTY",
+  "EMPTY",
+  "EMPTY",
+  "EMPTY",
+  "EMPTY",
+  "EMPTY",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "TREASURE",
+  "MUMMY",
+];
