@@ -23,11 +23,6 @@ export class Tomb {
 
   getNeighbouringCells(): Point[] {
     let container: Point[] = [];
-    // for (let row = -1; row < 5; row++) {
-    //   for (let col = -1; col <= 6; col++) {
-    //     container.push([col + this.x, row + this.y]);
-    //   }
-    // }
     // Do top and bottom rows
     let row = -1;
     for (let col = -1; col <= 6; col++) {
@@ -55,11 +50,12 @@ export class Tomb {
   }
 
   draw() {
+    let offset = this.open ? 32 : 0;
     for (let row = 0; row < 4; row++) {
       for (let col = 0; col <= 5; col++) {
         this.ctx.drawImage(
           this.playerImage,
-          128,
+          128 + offset,
           32,
           16,
           16,

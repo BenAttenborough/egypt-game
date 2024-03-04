@@ -91,19 +91,14 @@ function keyboardInput() {
 }
 
 function checkTombs() {
-  console.log("Chce");
-  console.log(MyGame.tombs[0]);
-  // console.log(MyGame.grid.get([1, 3]));
-  // MyGame.tombs[0].neighbouringCells.forEach((point) => {
-  //   console.log(MyGame.grid.get(point));
-  // });
-  if (
-    MyGame.tombs[0].neighbouringCells.every(
-      (point) => MyGame.grid.get(point) > 1
-    )
-  ) {
-    console.log("OPEN!");
-  }
+  MyGame.tombs.forEach((tomb) => {
+    if (
+      !tomb.open &&
+      tomb.neighbouringCells.every((point) => MyGame.grid.get(point) > 1)
+    ) {
+      tomb.open = true;
+    }
+  });
 }
 
 document.onreadystatechange = () => {
