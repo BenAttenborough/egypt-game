@@ -1,6 +1,6 @@
 import "./style.css";
 import { Grid } from "./grid";
-import spriteSheet from "./sprite-sheet2.png";
+import spriteSheet from "./sprite-sheet-debug.png";
 import { Player } from "./objects/player";
 import { Tomb, tombTypes } from "./objects/tomb";
 import { drawFeet } from "./objects/feet";
@@ -43,9 +43,8 @@ function update(tFrame = 0) {
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
-  // console.log(tombTypes);
   let tombs = [];
-  let types = tombTypes.sort(() => (Math.random() > 0.5 ? 1 : -1));
+  let types = tombTypes.toSorted(() => (Math.random() > 0.5 ? 1 : -1));
   let i = 0;
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 5; col++) {
@@ -55,10 +54,6 @@ function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
       i++;
     }
   }
-  // console.log(tombs);
-  // tombs.sort(() => (Math.random() > 0.5 ? 1 : -1));
-  // console.log(tombs);
-
   return tombs;
 }
 

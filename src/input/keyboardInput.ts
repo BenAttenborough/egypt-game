@@ -2,20 +2,23 @@ function setBlockFromOrigin(MyGame: any, val: any) {
   if (val === 4) {
     // UP
     MyGame.grid.set(
-      [MyGame.grid.position[0], MyGame.grid.position[1] + 1],
+      [MyGame.grid.position[0], MyGame.grid.position[1] + 2],
       val
     );
     MyGame.grid.set(
-      [MyGame.grid.position[0] + 1, MyGame.grid.position[1] + 1],
+      [MyGame.grid.position[0] + 1, MyGame.grid.position[1] + 2],
       val
     );
   }
 
   if (val === 5) {
     // DOWN
-    MyGame.grid.set([...MyGame.grid.position], val);
     MyGame.grid.set(
-      [MyGame.grid.position[0] + 1, MyGame.grid.position[1]],
+      [MyGame.grid.position[0], MyGame.grid.position[1] - 1],
+      val
+    );
+    MyGame.grid.set(
+      [MyGame.grid.position[0] + 1, MyGame.grid.position[1] - 1],
       val
     );
   }
@@ -23,20 +26,23 @@ function setBlockFromOrigin(MyGame: any, val: any) {
   if (val === 3) {
     // LEFT
     MyGame.grid.set(
-      [MyGame.grid.position[0] + 1, MyGame.grid.position[1]],
+      [MyGame.grid.position[0] + 2, MyGame.grid.position[1]],
       val
     );
     MyGame.grid.set(
-      [MyGame.grid.position[0] + 1, MyGame.grid.position[1] + 1],
+      [MyGame.grid.position[0] + 2, MyGame.grid.position[1] + 1],
       val
     );
   }
 
   if (val === 2) {
     // RIGHT
-    MyGame.grid.set([...MyGame.grid.position], val);
     MyGame.grid.set(
-      [MyGame.grid.position[0], MyGame.grid.position[1] + 1],
+      [MyGame.grid.position[0] - 1, MyGame.grid.position[1]],
+      val
+    );
+    MyGame.grid.set(
+      [MyGame.grid.position[0] - 1, MyGame.grid.position[1] + 1],
       val
     );
   }
