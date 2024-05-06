@@ -1,5 +1,10 @@
+@font-face {
+  font-family: 'Amstrad';
+  src: url('cpc464.ttf');
+}
+
 :root {
-  font-family: 'amstrad', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Amstrad', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -31,8 +36,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  /* background-color: yellow; */
-  background-color: #1a1a1a;
+  background-color: yellow;
+  /* background-color: #1a1a1a; */
 }
 
 h1 {

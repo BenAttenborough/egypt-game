@@ -1,6 +1,6 @@
 import "./style.css";
 import { Grid } from "./grid";
-import spriteSheet from "./sprite-sheet-debug.png";
+import spriteSheet from "./sprite-sheet2.png";
 import { Player } from "./objects/player";
 import { Tomb, tombTypes } from "./objects/tomb";
 import { drawFeet } from "./objects/feet";
@@ -34,6 +34,8 @@ function draw() {
   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
   player.drawPlayer(MyGame.playerDirection, MyGame.grid.position);
   MyGame.tombs.forEach((tomb) => tomb.draw());
+  MyGame.ctx.font = "10px Amstrad";
+  MyGame.ctx.fillText("SCORE:", 0, 10);
 }
 
 function update(tFrame = 0) {
