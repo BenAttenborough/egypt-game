@@ -10,8 +10,8 @@ import { doubleArrayArray } from "./helpers/util";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <h1>Oh Mummy!</h1>
-    <canvas id="game-canvas" width="670" height="352"></canvas>
+    <h1>MUMMY MAYHEM</h1>
+    <canvas id="game-canvas" width="670" height="384"></canvas>
   </div>
 `;
 
@@ -20,7 +20,7 @@ const spriteSheetImg = new Image();
 spriteSheetImg.src = spriteSheet;
 
 const MyGame = initContext();
-MyGame.grid.position = [16, 0];
+MyGame.grid.position = [16, 2];
 
 const player = new Player(MyGame.ctx, spriteSheetImg, stopMain);
 
@@ -51,7 +51,7 @@ function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 5; col++) {
       tombs.push(
-        new Tomb(col * 8 + 2, row * 6 + 4, ctx, spriteSheetImg, types[i])
+        new Tomb(col * 8 + 2, row * 6 + 6, ctx, spriteSheetImg, types[i])
       );
       i++;
     }
