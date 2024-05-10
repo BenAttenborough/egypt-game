@@ -111,16 +111,16 @@ function keyboardInput() {
   window.addEventListener("keyup", (e) => {
     e.preventDefault();
     if (e.code === "ArrowRight") {
-      MyGame.keysPressed.ArrowRight = true;
+      MyGame.keysPressed.ArrowRight = false;
     }
     if (e.code === "ArrowLeft") {
-      MyGame.keysPressed.ArrowLeft = true;
+      MyGame.keysPressed.ArrowLeft = false;
     }
     if (e.code === "ArrowUp") {
-      MyGame.keysPressed.ArrowUp = true;
+      MyGame.keysPressed.ArrowUp = false;
     }
     if (e.code === "ArrowDown") {
-      MyGame.keysPressed.ArrowDown = true;
+      MyGame.keysPressed.ArrowDown = false;
     }
     // if (MyGame.keysPressed.hasOwnProperty(e.code))
     //   MyGame.keysPressed[e.code] = false;
