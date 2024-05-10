@@ -11,7 +11,7 @@ import { doubleArrayArray } from "./helpers/util";
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
     <h1>MUMMY MAYHEM</h1>
-    <canvas id="game-canvas" width="670" height="384"></canvas>
+    <canvas id="game-canvas" width="670" height="480"></canvas>
   </div>
 `;
 
@@ -34,8 +34,13 @@ function draw() {
   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
   player.drawPlayer(MyGame.playerDirection, MyGame.grid.position);
   MyGame.tombs.forEach((tomb) => tomb.draw());
-  MyGame.ctx.font = "10px Amstrad";
-  MyGame.ctx.fillText("SCORE:", 0, 10);
+  MyGame.ctx.font = "16px Amstrad";
+  MyGame.ctx.fillStyle = "#ff8000";
+  MyGame.ctx.fillText("SCORE", 0, 18);
+  // MyGame.ctx.fillStyle = "#0080ff";
+  // MyGame.ctx.fillRect(100, 0, 200, 18);
+  MyGame.ctx.fillStyle = "#0080ff";
+  MyGame.ctx.fillText(("00000" + MyGame.score.toString()).slice(-5), 100, 18);
 }
 
 function update(tFrame = 0) {
@@ -48,7 +53,7 @@ function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   let tombs = [];
   let types = tombTypes.toSorted(() => (Math.random() > 0.5 ? 1 : -1));
   let i = 0;
-  for (let row = 0; row < 3; row++) {
+  for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 5; col++) {
       tombs.push(
         new Tomb(col * 8 + 2, row * 6 + 6, ctx, spriteSheetImg, types[i])
@@ -80,6 +85,7 @@ function initContext(): GameConfig {
       ArrowUp: false,
       ArrowDown: false,
     },
+    score: 0,
   };
 }
 
@@ -104,6 +110,18 @@ function checkTombs() {
       tomb.neighbouringCells.every((point) => MyGame.grid.get(point) > 1)
     ) {
       tomb.open = true;
+      switch (tomb.type) {
+        case "TREASURE":
+          MyGame.score += 5;
+          break;
+
+        case "COFFIN":
+          MyGame.score += 50;
+          break;
+
+        default:
+          break;
+      }
     }
   });
 }

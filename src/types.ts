@@ -14,6 +14,7 @@ type Tomb = {
   open: boolean;
   draw: () => void;
   neighbouringCells: Point[];
+  type: TombType;
 };
 
 type GameConfig = {
@@ -31,4 +32,5 @@ type GameConfig = {
     ArrowUp: boolean;
     ArrowDown: boolean;
   };
+  score: number;
 };
