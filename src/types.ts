@@ -4,7 +4,7 @@ type Quadrant = "TL" | "TR" | "BL" | "BR";
 type Grid = {
   content: any[][];
   position: Point;
-  move4Block: (direction: Direction) => void;
+  move4Block: (direction: Direction) => boolean;
   get: (point: Point) => any;
 };
 

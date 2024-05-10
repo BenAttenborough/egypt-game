@@ -63,11 +63,12 @@ export function handleKeyboardInput(
     let absPostion = Math.round(MyGame.precisePosition[1]);
     if (absPostion <= MyGame.grid.position[1] - 1) {
       MyGame.playerDirection = "UP";
-      MyGame.grid.move4Block("UP");
-      setBlockFromOrigin(MyGame, 4);
-      MyGame.precisePosition[1] = MyGame.grid.position[1];
-      absPostion = MyGame.grid.position[1];
-      MyGame.stateChanged = true;
+      if (MyGame.grid.move4Block("UP")) {
+        setBlockFromOrigin(MyGame, 4);
+        MyGame.precisePosition[1] = MyGame.grid.position[1];
+        absPostion = MyGame.grid.position[1];
+        MyGame.stateChanged = true;
+      }
     }
   }
   if (MyGame.keysPressed.ArrowDown) {
@@ -75,11 +76,12 @@ export function handleKeyboardInput(
     let absPostion = Math.round(MyGame.precisePosition[1]);
     if (absPostion >= MyGame.grid.position[1] + 1) {
       MyGame.playerDirection = "DOWN";
-      MyGame.grid.move4Block("DOWN");
-      setBlockFromOrigin(MyGame, 5);
-      MyGame.precisePosition[1] = MyGame.grid.position[1];
-      absPostion = MyGame.grid.position[1];
-      MyGame.stateChanged = true;
+      if (MyGame.grid.move4Block("DOWN")) {
+        setBlockFromOrigin(MyGame, 5);
+        MyGame.precisePosition[1] = MyGame.grid.position[1];
+        absPostion = MyGame.grid.position[1];
+        MyGame.stateChanged = true;
+      }
     }
   }
   if (MyGame.keysPressed.ArrowLeft) {
@@ -87,11 +89,12 @@ export function handleKeyboardInput(
     let absPostion = Math.round(MyGame.precisePosition[0]);
     if (absPostion <= MyGame.grid.position[0] - 1) {
       MyGame.playerDirection = "LEFT";
-      MyGame.grid.move4Block("LEFT");
-      setBlockFromOrigin(MyGame, 3);
-      MyGame.precisePosition[0] = MyGame.grid.position[0];
-      absPostion = MyGame.grid.position[0];
-      MyGame.stateChanged = true;
+      if (MyGame.grid.move4Block("LEFT")) {
+        setBlockFromOrigin(MyGame, 3);
+        MyGame.precisePosition[0] = MyGame.grid.position[0];
+        absPostion = MyGame.grid.position[0];
+        MyGame.stateChanged = true;
+      }
     }
   }
   if (MyGame.keysPressed.ArrowRight) {
@@ -99,11 +102,12 @@ export function handleKeyboardInput(
     let absPostion = Math.round(MyGame.precisePosition[0]);
     if (absPostion >= MyGame.grid.position[0] + 1) {
       MyGame.playerDirection = "RIGHT";
-      MyGame.grid.move4Block("RIGHT");
-      setBlockFromOrigin(MyGame, 2);
-      MyGame.precisePosition[0] = MyGame.grid.position[0];
-      absPostion = MyGame.grid.position[0];
-      MyGame.stateChanged = true;
+      if (MyGame.grid.move4Block("RIGHT")) {
+        setBlockFromOrigin(MyGame, 2);
+        MyGame.precisePosition[0] = MyGame.grid.position[0];
+        absPostion = MyGame.grid.position[0];
+        MyGame.stateChanged = true;
+      }
     }
   }
 }
