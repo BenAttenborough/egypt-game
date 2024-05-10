@@ -92,14 +92,38 @@ function initContext(): GameConfig {
 function keyboardInput() {
   window.addEventListener("keydown", (e) => {
     e.preventDefault();
-    if (MyGame.keysPressed.hasOwnProperty(e.code))
-      MyGame.keysPressed[e.code] = true;
+    if (e.code === "ArrowRight") {
+      MyGame.keysPressed.ArrowRight = true;
+    }
+    if (e.code === "ArrowLeft") {
+      MyGame.keysPressed.ArrowLeft = true;
+    }
+    if (e.code === "ArrowUp") {
+      MyGame.keysPressed.ArrowUp = true;
+    }
+    if (e.code === "ArrowDown") {
+      MyGame.keysPressed.ArrowDown = true;
+    }
+    // if (MyGame.keysPressed.hasOwnProperty(e.code))
+    //   MyGame.keysPressed[e.code] = true;
   });
 
   window.addEventListener("keyup", (e) => {
     e.preventDefault();
-    if (MyGame.keysPressed.hasOwnProperty(e.code))
-      MyGame.keysPressed[e.code] = false;
+    if (e.code === "ArrowRight") {
+      MyGame.keysPressed.ArrowRight = true;
+    }
+    if (e.code === "ArrowLeft") {
+      MyGame.keysPressed.ArrowLeft = true;
+    }
+    if (e.code === "ArrowUp") {
+      MyGame.keysPressed.ArrowUp = true;
+    }
+    if (e.code === "ArrowDown") {
+      MyGame.keysPressed.ArrowDown = true;
+    }
+    // if (MyGame.keysPressed.hasOwnProperty(e.code))
+    //   MyGame.keysPressed[e.code] = false;
   });
 }
 

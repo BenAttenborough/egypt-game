@@ -44,13 +44,13 @@ export class Tomb {
     return container;
   }
 
-  printCellValues(grid) {
-    grid.forEach((row) => {
-      row.forEach((col) => {
-        console.log(col);
-      });
-    });
-  }
+  // printCellValues(grid) {
+  //   grid.forEach((row) => {
+  //     row.forEach((col) => {
+  //       console.log(col);
+  //     });
+  //   });
+  // }
 
   draw() {
     if (!this.open) {
