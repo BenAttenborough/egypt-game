@@ -3,8 +3,9 @@ type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 type Quadrant = "TL" | "TR" | "BL" | "BR";
 type Grid = {
   content: any[][];
-  position: Point;
-  move4Block: (direction: Direction) => boolean;
+  // position: Point;
+  // move4Block: (direction: Direction) => boolean;
+  canMove: (position: Point, direction: Direction) => boolean;
   get: (point: Point) => any;
 };
 
@@ -17,6 +18,17 @@ type Tomb = {
   type: TombType;
 };
 
+type Player = {
+  spriteSize: number;
+  cellSize: number;
+  ctx: CanvasRenderingContext2D;
+  playerImage: HTMLImageElement;
+  stopMain: () => void;
+  position: Point;
+  precisePosition: Point;
+  drawPlayer: (direction: Direction) => void;
+};
+
 type GameConfig = {
   stopMain: number;
   ctx: CanvasRenderingContext2D;
@@ -24,6 +36,7 @@ type GameConfig = {
   precisePosition: Point;
   speed: number;
   stateChanged: boolean;
+  player: Player;
   playerDirection: Direction;
   tombs: Tomb[];
   keysPressed: {

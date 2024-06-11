@@ -20,9 +20,7 @@ const spriteSheetImg = new Image();
 spriteSheetImg.src = spriteSheet;
 
 const MyGame = initContext();
-MyGame.grid.position = [16, 2];
-
-const player = new Player(MyGame.ctx, spriteSheetImg, stopMain);
+// MyGame.grid.position = [16, 2];
 
 function stopMain() {
   window.cancelAnimationFrame(MyGame.stopMain);
@@ -32,7 +30,7 @@ function draw() {
   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
-  player.drawPlayer(MyGame.playerDirection, MyGame.grid.position);
+  MyGame.player.drawPlayer(MyGame.playerDirection);
   MyGame.tombs.forEach((tomb) => tomb.draw());
   MyGame.ctx.font = "16px Amstrad";
   MyGame.ctx.fillStyle = "#ff8000";
@@ -78,6 +76,7 @@ function initContext(): GameConfig {
     speed: 0.005,
     stateChanged: true,
     playerDirection: "DOWN",
+    player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
     tombs: initTombs(ctx!),
     keysPressed: {
       ArrowRight: false,
