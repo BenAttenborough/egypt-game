@@ -24,7 +24,14 @@ export class Player {
   }
 
   drawPlayer(direction: Direction) {
-    // console.log("drawPlayer position x", this.position[0], "y", this.position[1])
+    console.log(
+      "drawPlayer position x",
+      this.position[0],
+      "y",
+      this.position[1],
+      "direction",
+      direction
+    );
     let offSet = 0;
     switch (direction) {
       case "UP":
@@ -83,7 +90,7 @@ export class Player {
   }
 
   setPosition(position: Point) {
-    console.log("Setting position to", position)
-    this.position = position
+    console.log("Setting position to", position);
+    this.position = position;
   }
 }

@@ -59,60 +59,60 @@ export function handleKeyboardInput(
   //   console.log(MyGame.stopMain);
   //   stopMain;
   // }
-  // if (MyGame.keysPressed.ArrowUp) {
-  //   console.log("UP");
-  //   MyGame.precisePosition[1] -= MyGame.speed * delta;
-  //   let absPostion = Math.round(MyGame.precisePosition[1]);
-  //   if (absPostion <= MyGame.grid.position[1] - 1) {
-  //     MyGame.playerDirection = "UP";
-  //     if (MyGame.grid.move4Block("UP")) {
-  //       setBlockFromOrigin(MyGame, 4);
-  //       MyGame.precisePosition[1] = MyGame.grid.position[1];
-  //       absPostion = MyGame.grid.position[1];
-  //       MyGame.stateChanged = true;
-  //     }
-  //   }
-  // }
+
+  // UP
+  if (MyGame.keysPressed.ArrowUp) {
+    MyGame.player.precisePosition[1] -= MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.player.precisePosition[1]);
+    if (absPostion >= MyGame.player.position[1] - 1) {
+      if (MyGame.grid.canMove(MyGame.player.position, "UP")) {
+        MyGame.playerDirection = "UP";
+        MyGame.player.position[1] = absPostion;
+        MyGame.stateChanged = true;
+      }
+    }
+  }
+
+  // DOWN
   if (MyGame.keysPressed.ArrowDown) {
     MyGame.player.precisePosition[1] += MyGame.speed * delta;
     let absPostion = Math.round(MyGame.player.precisePosition[1]);
-    // console.log("precisePosition", MyGame.player.precisePosition[1])
-    console.log("absPostion", absPostion)
-    
-    console.log("MyGame.player.position[1]", MyGame.player.position[1])
-
     if (absPostion >= MyGame.player.position[1] + 1) {
-      MyGame.player.position[1] = absPostion
-      MyGame.stateChanged = true;
+      if (MyGame.grid.canMove(MyGame.player.position, "DOWN")) {
+        MyGame.playerDirection = "DOWN";
+        MyGame.player.position[1] = absPostion;
+        MyGame.stateChanged = true;
+      }
     }
-
-    // if (absPostion >= MyGame.player.position[1] + 1) {
-    //   MyGame.playerDirection = "DOWN";
-    //   console.log("Moving down");
-    //   if (MyGame.grid.canMove(MyGame.player.position, "DOWN")) {
-    //     console.log("Can move down");
-    //     setBlockFromOrigin(MyGame, 5);
-    //     MyGame.player.precisePosition[1] = MyGame.player.position[1];
-    //     console.log("Position", MyGame.player.position[1])
-    //     console.log("Precise Position", MyGame.player.precisePosition[1])
-    //     absPostion = MyGame.player.position[1];
-    //     MyGame.stateChanged = true;
-    //   }
-    // }
   }
-  // if (MyGame.keysPressed.ArrowLeft) {
-  //   MyGame.precisePosition[0] -= MyGame.speed * delta;
-  //   let absPostion = Math.round(MyGame.precisePosition[0]);
-  //   if (absPostion <= MyGame.grid.position[0] - 1) {
-  //     MyGame.playerDirection = "LEFT";
-  //     if (MyGame.grid.move4Block("LEFT")) {
-  //       setBlockFromOrigin(MyGame, 3);
-  //       MyGame.precisePosition[0] = MyGame.grid.position[0];
-  //       absPostion = MyGame.grid.position[0];
-  //       MyGame.stateChanged = true;
-  //     }
-  //   }
-  // }
+
+  // LEFT
+  if (MyGame.keysPressed.ArrowLeft) {
+    MyGame.player.precisePosition[0] -= MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.player.precisePosition[0]);
+    if (absPostion >= MyGame.player.position[0] - 1) {
+      if (MyGame.grid.canMove(MyGame.player.position, "LEFT")) {
+        MyGame.playerDirection = "LEFT";
+        MyGame.player.position[0] = absPostion;
+        MyGame.stateChanged = true;
+      }
+    }
+  }
+
+  // RIGHT
+  if (MyGame.keysPressed.ArrowRight) {
+    MyGame.player.precisePosition[0] += MyGame.speed * delta;
+    let absPostion = Math.round(MyGame.player.precisePosition[0]);
+    if (absPostion >= MyGame.player.position[0] + 1) {
+      if (MyGame.grid.canMove(MyGame.player.position, "RIGHT")) {
+        MyGame.playerDirection = "RIGHT";
+
+        MyGame.player.position[0] = absPostion;
+        MyGame.stateChanged = true;
+      }
+    }
+  }
+
   // if (MyGame.keysPressed.ArrowRight) {
   //   MyGame.precisePosition[0] += MyGame.speed * delta;
   //   let absPostion = Math.round(MyGame.precisePosition[0]);
