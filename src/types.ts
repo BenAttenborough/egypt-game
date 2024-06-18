@@ -27,6 +27,7 @@ type Player = {
   position: Point;
   precisePosition: Point;
   drawPlayer: (direction: Direction) => void;
+  setPosition: (position: Point) => void;
 };
 
 type GameConfig = {

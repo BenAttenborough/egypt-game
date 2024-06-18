@@ -24,6 +24,7 @@ export class Player {
   }
 
   drawPlayer(direction: Direction) {
+    // console.log("drawPlayer position x", this.position[0], "y", this.position[1])
     let offSet = 0;
     switch (direction) {
       case "UP":
@@ -79,5 +80,10 @@ export class Player {
       this.stopMain;
       throw new Error(`Error loading image: ${this.playerImage.currentSrc}`);
     }
+  }
+
+  setPosition(position: Point) {
+    console.log("Setting position to", position)
+    this.position = position
   }
 }
