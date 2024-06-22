@@ -72,17 +72,17 @@ export class Player {
         this.spriteSize,
         this.spriteSize
       );
-      //   this.ctx.drawImage(
-      //     this.playerImage,
-      //     offSet,
-      //     0,
-      //     this.spriteSize,
-      //     this.spriteSize,
-      //     this.gridPosition[0] * this.cellSize,
-      //     this.gridPosition[1] * this.cellSize,
-      //     this.spriteSize,
-      //     this.spriteSize
-      //   );
+      // this.ctx.drawImage(
+      //   this.playerImage,
+      //   offSet,
+      //   0,
+      //   this.spriteSize,
+      //   this.spriteSize,
+      //   this.position[0] * this.cellSize,
+      //   this.position[1] * this.cellSize,
+      //   this.spriteSize,
+      //   this.spriteSize
+      // );
     } catch (error) {
       this.stopMain;
       throw new Error(`Error loading image: ${this.playerImage.currentSrc}`);

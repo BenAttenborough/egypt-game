@@ -1,5 +1,6 @@
 import "./style.css";
 import { Grid } from "./grid";
+// import spriteSheet from "./sprite-sheet-debug.png";
 import spriteSheet from "./sprite-sheet2.png";
 import { Player } from "./objects/player";
 import { Tomb, tombTypes } from "./objects/tomb";
