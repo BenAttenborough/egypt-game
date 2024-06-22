@@ -3,6 +3,7 @@ import { Grid } from "./grid";
 // import spriteSheet from "./sprite-sheet-debug.png";
 import spriteSheet from "./sprite-sheet2.png";
 import { Player } from "./objects/player";
+import { Mummy } from "./objects/mummy";
 import { Tomb, tombTypes } from "./objects/tomb";
 import { drawFeet } from "./objects/feet";
 import { initPlayfield } from "./objects/playfield";
@@ -32,6 +33,7 @@ function draw() {
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
   MyGame.player.drawPlayer(MyGame.playerDirection);
+  MyGame.mummies.forEach((mummy) => mummy.draw(MyGame.playerDirection));
   MyGame.tombs.forEach((tomb) => tomb.draw());
   MyGame.ctx.font = "16px Amstrad";
   MyGame.ctx.fillStyle = "#ff8000";
@@ -78,6 +80,7 @@ function initContext(): GameConfig {
     stateChanged: true,
     playerDirection: "DOWN",
     player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
+    mummies: [new Mummy(ctx!, spriteSheetImg, stopMain, [40, 28], [40, 28])],
     tombs: initTombs(ctx!),
     keysPressed: {
       ArrowRight: false,

@@ -30,6 +30,18 @@ type Player = {
   setPosition: (position: Point) => void;
 };
 
+type Mummy = {
+  spriteSize: number;
+  cellSize: number;
+  ctx: CanvasRenderingContext2D;
+  image: HTMLImageElement;
+  stopMain: () => void;
+  position: Point;
+  precisePosition: Point;
+  draw: (direction: Direction) => void;
+  setPosition: (position: Point) => void;
+};
+
 type GameConfig = {
   stopMain: number;
   ctx: CanvasRenderingContext2D;
@@ -39,6 +51,7 @@ type GameConfig = {
   stateChanged: boolean;
   player: Player;
   playerDirection: Direction;
+  mummies: Mummy[];
   tombs: Tomb[];
   keysPressed: {
     ArrowRight: boolean;
