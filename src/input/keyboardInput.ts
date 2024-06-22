@@ -62,10 +62,10 @@ export function handleKeyboardInput(
 
   // UP
   if (MyGame.keysPressed.ArrowUp) {
-    MyGame.player.precisePosition[1] -= MyGame.speed * delta;
-    let absPostion = Math.round(MyGame.player.precisePosition[1]);
-    if (absPostion >= MyGame.player.position[1] - 1) {
-      if (MyGame.grid.canMove(MyGame.player.position, "UP")) {
+    if (MyGame.grid.canMove(MyGame.player.position, "UP")) {
+      MyGame.player.precisePosition[1] -= MyGame.speed * delta;
+      let absPostion = Math.round(MyGame.player.precisePosition[1]);
+      if (absPostion >= MyGame.player.position[1] - 1) {
         MyGame.playerDirection = "UP";
         MyGame.player.position[1] = absPostion;
         MyGame.stateChanged = true;
@@ -75,10 +75,10 @@ export function handleKeyboardInput(
 
   // DOWN
   if (MyGame.keysPressed.ArrowDown) {
-    MyGame.player.precisePosition[1] += MyGame.speed * delta;
-    let absPostion = Math.round(MyGame.player.precisePosition[1]);
-    if (absPostion >= MyGame.player.position[1] + 1) {
-      if (MyGame.grid.canMove(MyGame.player.position, "DOWN")) {
+    if (MyGame.grid.canMove(MyGame.player.position, "DOWN")) {
+      MyGame.player.precisePosition[1] += MyGame.speed * delta;
+      let absPostion = Math.round(MyGame.player.precisePosition[1]);
+      if (absPostion >= MyGame.player.position[1] + 1) {
         MyGame.playerDirection = "DOWN";
         MyGame.player.position[1] = absPostion;
         MyGame.stateChanged = true;
@@ -88,10 +88,10 @@ export function handleKeyboardInput(
 
   // LEFT
   if (MyGame.keysPressed.ArrowLeft) {
-    MyGame.player.precisePosition[0] -= MyGame.speed * delta;
-    let absPostion = Math.round(MyGame.player.precisePosition[0]);
-    if (absPostion >= MyGame.player.position[0] - 1) {
-      if (MyGame.grid.canMove(MyGame.player.position, "LEFT")) {
+    if (MyGame.grid.canMove(MyGame.player.position, "LEFT")) {
+      MyGame.player.precisePosition[0] -= MyGame.speed * delta;
+      let absPostion = Math.round(MyGame.player.precisePosition[0]);
+      if (absPostion >= MyGame.player.position[0] - 1) {
         MyGame.playerDirection = "LEFT";
         MyGame.player.position[0] = absPostion;
         MyGame.stateChanged = true;
@@ -101,12 +101,11 @@ export function handleKeyboardInput(
 
   // RIGHT
   if (MyGame.keysPressed.ArrowRight) {
-    MyGame.player.precisePosition[0] += MyGame.speed * delta;
-    let absPostion = Math.round(MyGame.player.precisePosition[0]);
-    if (absPostion >= MyGame.player.position[0] + 1) {
-      if (MyGame.grid.canMove(MyGame.player.position, "RIGHT")) {
+    if (MyGame.grid.canMove(MyGame.player.position, "RIGHT")) {
+      MyGame.player.precisePosition[0] += MyGame.speed * delta;
+      let absPostion = Math.round(MyGame.player.precisePosition[0]);
+      if (absPostion >= MyGame.player.position[0] + 1) {
         MyGame.playerDirection = "RIGHT";
-
         MyGame.player.position[0] = absPostion;
         MyGame.stateChanged = true;
       }
