@@ -9,10 +9,11 @@ import { drawFeet } from "./objects/feet";
 import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
 import { doubleArrayArray } from "./helpers/util";
+import { mummyMovement } from "./update/update";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <h1>MUMMY MAYHEM</h1>
+    <h1>OH MUMMY!</h1>
     <canvas id="game-canvas" width="670" height="480"></canvas>
   </div>
 `;
@@ -22,7 +23,6 @@ const spriteSheetImg = new Image();
 spriteSheetImg.src = spriteSheet;
 
 const MyGame = initContext();
-// MyGame.grid.position = [16, 2];
 
 function stopMain() {
   window.cancelAnimationFrame(MyGame.stopMain);
@@ -33,13 +33,11 @@ function draw() {
   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
   MyGame.player.drawPlayer(MyGame.playerDirection);
-  MyGame.mummies.forEach((mummy) => mummy.draw(MyGame.playerDirection));
+  MyGame.mummies.forEach((mummy) => mummy.draw());
   MyGame.tombs.forEach((tomb) => tomb.draw());
   MyGame.ctx.font = "16px Amstrad";
   MyGame.ctx.fillStyle = "#ff8000";
   MyGame.ctx.fillText("SCORE", 0, 18);
-  // MyGame.ctx.fillStyle = "#0080ff";
-  // MyGame.ctx.fillRect(100, 0, 200, 18);
   MyGame.ctx.fillStyle = "#0080ff";
   MyGame.ctx.fillText(("00000" + MyGame.score.toString()).slice(-5), 100, 18);
 }
@@ -48,6 +46,7 @@ function update(tFrame = 0) {
   const delta = tFrame - lastTick;
   lastTick = tFrame;
   handleKeyboardInput(MyGame, delta);
+  // mummyMovement(MyGame, delta);
 }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
@@ -80,7 +79,9 @@ function initContext(): GameConfig {
     stateChanged: true,
     playerDirection: "DOWN",
     player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
-    mummies: [new Mummy(ctx!, spriteSheetImg, stopMain, [40, 28], [40, 28])],
+    mummies: [
+      new Mummy(ctx!, spriteSheetImg, stopMain, [40, 28], [40, 28], "LEFT"),
+    ],
     tombs: initTombs(ctx!),
     keysPressed: {
       ArrowRight: false,

@@ -38,7 +38,8 @@ type Mummy = {
   stopMain: () => void;
   position: Point;
   precisePosition: Point;
-  draw: (direction: Direction) => void;
+  direction: Direction;
+  draw: () => void;
   setPosition: (position: Point) => void;
 };
 

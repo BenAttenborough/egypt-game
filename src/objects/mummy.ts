@@ -6,13 +6,15 @@ export class Mummy {
   stopMain: () => void;
   position: Point;
   precisePosition: Point;
+  direction: Direction;
 
   constructor(
     ctx: CanvasRenderingContext2D,
     image: HTMLImageElement,
     stopMain: () => void,
     position: Point,
-    precisePosition: Point
+    precisePosition: Point,
+    direction: Direction
   ) {
     this.spriteSize = 32;
     this.cellSize = 16;
@@ -21,11 +23,12 @@ export class Mummy {
     this.stopMain = stopMain;
     this.position = position;
     this.precisePosition = precisePosition;
+    this.direction = direction;
   }
 
-  draw(direction: Direction) {
+  draw() {
     let offSet = 0;
-    switch (direction) {
+    switch (this.direction) {
       case "UP":
         offSet = 6 * this.spriteSize;
         if (this.position[1] % 2 === 0) {
