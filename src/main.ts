@@ -10,6 +10,7 @@ import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
 import { doubleArrayArray } from "./helpers/util";
 import { mummyMovement } from "./update/update";
+import { State } from "./state";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -22,32 +23,38 @@ let lastTick = performance.now();
 const spriteSheetImg = new Image();
 spriteSheetImg.src = spriteSheet;
 
-const MyGame = initContext();
+const TitleState = new State("title");
+const states = {
+  title: TitleState,
+};
+let selectedState = states.title;
 
-function stopMain() {
-  window.cancelAnimationFrame(MyGame.stopMain);
-}
+// const MyGame = initContext();
 
-function draw() {
-  const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
-  MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
-  MyGame.player.drawPlayer(MyGame.playerDirection);
-  MyGame.mummies.forEach((mummy) => mummy.draw());
-  MyGame.tombs.forEach((tomb) => tomb.draw());
-  MyGame.ctx.font = "16px Amstrad";
-  MyGame.ctx.fillStyle = "#ff8000";
-  MyGame.ctx.fillText("SCORE", 0, 18);
-  MyGame.ctx.fillStyle = "#0080ff";
-  MyGame.ctx.fillText(("00000" + MyGame.score.toString()).slice(-5), 100, 18);
-}
+// function stopMain() {
+//   window.cancelAnimationFrame(MyGame.stopMain);
+// }
 
-function update(tFrame = 0) {
-  const delta = tFrame - lastTick;
-  lastTick = tFrame;
-  handleKeyboardInput(MyGame, delta);
-  // mummyMovement(MyGame, delta);
-}
+// function draw() {
+//   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
+//   MyGame.ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   drawFeet(MyGame.grid.content, MyGame.ctx, spriteSheetImg);
+//   MyGame.player.drawPlayer(MyGame.playerDirection);
+//   MyGame.mummies.forEach((mummy) => mummy.draw());
+//   MyGame.tombs.forEach((tomb) => tomb.draw());
+//   MyGame.ctx.font = "16px Amstrad";
+//   MyGame.ctx.fillStyle = "#ff8000";
+//   MyGame.ctx.fillText("SCORE", 0, 18);
+//   MyGame.ctx.fillStyle = "#0080ff";
+//   MyGame.ctx.fillText(("00000" + MyGame.score.toString()).slice(-5), 100, 18);
+// }
+
+// function update(tFrame = 0) {
+//   const delta = tFrame - lastTick;
+//   lastTick = tFrame;
+//   handleKeyboardInput(MyGame, delta);
+//   // mummyMovement(MyGame, delta);
+// }
 
 function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   let tombs = [];
@@ -64,119 +71,132 @@ function initTombs(ctx: CanvasRenderingContext2D): Tomb[] {
   return tombs;
 }
 
-function initContext(): GameConfig {
-  const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
-  if (!canvas.getContext) {
-    throw new Error("No canvas found!");
-  }
-  const ctx = canvas.getContext("2d");
-  return {
-    stopMain: 0,
-    ctx: ctx!,
-    grid: new Grid(doubleArrayArray(initPlayfield())),
-    precisePosition: [16, 0],
-    speed: 0.005,
-    stateChanged: true,
-    playerDirection: "DOWN",
-    player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
-    mummies: [
-      new Mummy(
-        ctx!,
-        spriteSheetImg,
-        stopMain,
-        [40, 28],
-        [40, 28],
-        "LEFT",
-        false
-      ),
-    ],
-    tombs: initTombs(ctx!),
-    keysPressed: {
-      ArrowRight: false,
-      ArrowLeft: false,
-      ArrowUp: false,
-      ArrowDown: false,
-    },
-    score: 0,
-  };
-}
+// function initContext(): GameConfig {
+//   const canvas = document.getElementById("game-canvas")! as HTMLCanvasElement;
+//   if (!canvas.getContext) {
+//     throw new Error("No canvas found!");
+//   }
+//   const ctx = canvas.getContext("2d");
+//   return {
+//     stopMain: 0,
+//     ctx: ctx!,
+//     grid: new Grid(doubleArrayArray(initPlayfield())),
+//     precisePosition: [16, 0],
+//     speed: 0.005,
+//     stateChanged: true,
+//     playerDirection: "DOWN",
+//     player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
+//     mummies: [
+//       new Mummy(
+//         ctx!,
+//         spriteSheetImg,
+//         stopMain,
+//         [40, 28],
+//         [40, 28],
+//         "LEFT",
+//         false
+//       ),
+//     ],
+//     tombs: initTombs(ctx!),
+//     keysPressed: {
+//       ArrowRight: false,
+//       ArrowLeft: false,
+//       ArrowUp: false,
+//       ArrowDown: false,
+//     },
+//     score: 0,
+//   };
+// }
 
-function keyboardInput() {
-  window.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    if (e.code === "ArrowRight") {
-      MyGame.keysPressed.ArrowRight = true;
-    }
-    if (e.code === "ArrowLeft") {
-      MyGame.keysPressed.ArrowLeft = true;
-    }
-    if (e.code === "ArrowUp") {
-      MyGame.keysPressed.ArrowUp = true;
-    }
-    if (e.code === "ArrowDown") {
-      MyGame.keysPressed.ArrowDown = true;
-    }
-    // if (MyGame.keysPressed.hasOwnProperty(e.code))
-    //   MyGame.keysPressed[e.code] = true;
-  });
+// function keyboardInput() {
+//   window.addEventListener("keydown", (e) => {
+//     e.preventDefault();
+//     if (e.code === "ArrowRight") {
+//       MyGame.keysPressed.ArrowRight = true;
+//     }
+//     if (e.code === "ArrowLeft") {
+//       MyGame.keysPressed.ArrowLeft = true;
+//     }
+//     if (e.code === "ArrowUp") {
+//       MyGame.keysPressed.ArrowUp = true;
+//     }
+//     if (e.code === "ArrowDown") {
+//       MyGame.keysPressed.ArrowDown = true;
+//     }
+//     // if (MyGame.keysPressed.hasOwnProperty(e.code))
+//     //   MyGame.keysPressed[e.code] = true;
+//   });
 
-  window.addEventListener("keyup", (e) => {
-    e.preventDefault();
-    if (e.code === "ArrowRight") {
-      MyGame.keysPressed.ArrowRight = false;
-    }
-    if (e.code === "ArrowLeft") {
-      MyGame.keysPressed.ArrowLeft = false;
-    }
-    if (e.code === "ArrowUp") {
-      MyGame.keysPressed.ArrowUp = false;
-    }
-    if (e.code === "ArrowDown") {
-      MyGame.keysPressed.ArrowDown = false;
-    }
-    // if (MyGame.keysPressed.hasOwnProperty(e.code))
-    //   MyGame.keysPressed[e.code] = false;
-  });
-}
+//   window.addEventListener("keyup", (e) => {
+//     e.preventDefault();
+//     if (e.code === "ArrowRight") {
+//       MyGame.keysPressed.ArrowRight = false;
+//     }
+//     if (e.code === "ArrowLeft") {
+//       MyGame.keysPressed.ArrowLeft = false;
+//     }
+//     if (e.code === "ArrowUp") {
+//       MyGame.keysPressed.ArrowUp = false;
+//     }
+//     if (e.code === "ArrowDown") {
+//       MyGame.keysPressed.ArrowDown = false;
+//     }
+//     // if (MyGame.keysPressed.hasOwnProperty(e.code))
+//     //   MyGame.keysPressed[e.code] = false;
+//   });
+// }
 
-function checkTombs() {
-  MyGame.tombs.forEach((tomb) => {
-    if (
-      !tomb.open &&
-      tomb.neighbouringCells.every((point) => MyGame.grid.get(point) > 1)
-    ) {
-      tomb.open = true;
-      switch (tomb.type) {
-        case "TREASURE":
-          MyGame.score += 5;
-          break;
+// function checkTombs() {
+//   MyGame.tombs.forEach((tomb) => {
+//     if (
+//       !tomb.open &&
+//       tomb.neighbouringCells.every((point) => MyGame.grid.get(point) > 1)
+//     ) {
+//       tomb.open = true;
+//       switch (tomb.type) {
+//         case "TREASURE":
+//           MyGame.score += 5;
+//           break;
 
-        case "COFFIN":
-          MyGame.score += 50;
-          break;
+//         case "COFFIN":
+//           MyGame.score += 50;
+//           break;
 
-        default:
-          break;
-      }
-    }
-  });
-}
+//         default:
+//           break;
+//       }
+//     }
+//   });
+// }
 
 document.onreadystatechange = () => {
   if (document.readyState === "complete") {
     // document ready
-    keyboardInput();
+    // keyboardInput();
 
     (() => {
       function main(tFrame?: number) {
-        MyGame.stopMain = window.requestAnimationFrame(main);
-
-        update(tFrame); // Call your update method. In our case, we give it rAF's timestamp.
-        if (MyGame.stateChanged) {
-          checkTombs();
-          draw();
-        }
-        MyGame.stateChanged = false;
+        // MyGame.stopMain = window.requestAnimationFrame(main);
+        // update(tFrame); // Call your update method. In our case, we give it rAF's timestamp.
+        // if (MyGame.stateChanged) {
+        //   checkTombs();
+        //   draw();
+        // }
+        // MyGame.stateChanged = false;
+        // console.log(selectedState.name);
+        selectedState.draw();
+        // draw();
+        // const canvas = document.getElementById(
+        //   "game-canvas"
+        // )! as HTMLCanvasElement;
+        // if (!canvas.getContext) {
+        //   throw new Error("No canvas found!");
+        // }
+        // const ctx = canvas.getContext("2d")!;
+        // console.log(ctx);
+        // ctx.fillStyle = "#000000";
+        // //   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // ctx.clearRect(0, 0, 50, 50);
       }
 
       main(); // Start the cycle
