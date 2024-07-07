@@ -10,7 +10,7 @@ import { initPlayfield } from "./objects/playfield";
 import { handleKeyboardInput } from "./input/keyboardInput";
 import { doubleArrayArray } from "./helpers/util";
 import { mummyMovement } from "./update/update";
-import { State } from "./state";
+// import { State } from "./state";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
