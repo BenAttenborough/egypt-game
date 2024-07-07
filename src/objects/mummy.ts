@@ -7,6 +7,7 @@ export class Mummy {
   position: Point;
   precisePosition: Point;
   direction: Direction;
+  isMovingFromIntersection: boolean;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -14,7 +15,8 @@ export class Mummy {
     stopMain: () => void,
     position: Point,
     precisePosition: Point,
-    direction: Direction
+    direction: Direction,
+    isMovingFromIntersection: boolean
   ) {
     this.spriteSize = 32;
     this.cellSize = 16;
@@ -24,6 +26,7 @@ export class Mummy {
     this.position = position;
     this.precisePosition = precisePosition;
     this.direction = direction;
+    this.isMovingFromIntersection = isMovingFromIntersection;
   }
 
   draw() {

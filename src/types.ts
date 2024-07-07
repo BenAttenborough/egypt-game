@@ -8,6 +8,7 @@ type Grid = {
   canMove: (position: Point, direction: Direction) => boolean;
   get: (point: Point) => any;
 };
+type GameState = "TITLE" | "GAME";
 
 type TombType = "EMPTY" | "KEY" | "SCROLL" | "COFFIN" | "TREASURE" | "MUMMY";
 
@@ -41,6 +42,7 @@ type Mummy = {
   direction: Direction;
   draw: () => void;
   setPosition: (position: Point) => void;
+  isMovingFromIntersection: boolean;
 };
 
 type GameConfig = {

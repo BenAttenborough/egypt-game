@@ -80,7 +80,15 @@ function initContext(): GameConfig {
     playerDirection: "DOWN",
     player: new Player(ctx!, spriteSheetImg, stopMain, [16, 2], [16, 2]),
     mummies: [
-      new Mummy(ctx!, spriteSheetImg, stopMain, [40, 28], [40, 28], "LEFT"),
+      new Mummy(
+        ctx!,
+        spriteSheetImg,
+        stopMain,
+        [40, 28],
+        [40, 28],
+        "LEFT",
+        false
+      ),
     ],
     tombs: initTombs(ctx!),
     keysPressed: {

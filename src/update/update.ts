@@ -1,8 +1,13 @@
 export function mummyMovement(myGame: GameConfig, delta: number) {
   myGame.mummies.forEach((mummy) => {
-    if (isAtIntersection(mummy.position)) {
-      mummy.direction = pickRandomDirection();
-    }
+    // if (isAtIntersection(mummy.position)) {
+    //   if (!mummy.isMovingFromIntersection) {
+    //     mummy.direction = pickRandomDirection();
+    //     mummy.isMovingFromIntersection = true;
+    //   }
+    // } else {
+    //   mummy.isMovingFromIntersection = false;
+    // }
     if (mummy.direction == "LEFT") {
       if (myGame.grid.canMove(mummy.position, "LEFT")) {
         mummy.precisePosition[0] -= myGame.speed * delta;
