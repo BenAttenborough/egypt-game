@@ -1,23 +1,22 @@
 export class Player {
   spriteSize: number;
   cellSize: number;
-  ctx: CanvasRenderingContext2D;
+  // ctx: CanvasRenderingContext2D;
   playerImage: HTMLImageElement;
-  stopMain: () => void;
+  // stopMain: () => void;
 
   constructor(
-    ctx: CanvasRenderingContext2D,
+    // ctx: CanvasRenderingContext2D,
     playerImage: HTMLImageElement,
-    stopMain: () => void
+    // stopMain: () => void
   ) {
     this.spriteSize = 32;
     this.cellSize = 16;
-    this.ctx = ctx;
     this.playerImage = playerImage;
-    this.stopMain = stopMain;
+    // this.stopMain = stopMain;
   }
 
-  drawPlayer(direction: Direction, gridPosition: Point) {
+  drawPlayer(ctx: CanvasRenderingContext2D, direction: Direction, gridPosition: Point) {
     let offSet = 0;
     switch (direction) {
       case "UP":
@@ -47,7 +46,7 @@ export class Player {
     }
 
     try {
-      this.ctx.drawImage(
+      ctx.drawImage(
         this.playerImage,
         offSet,
         0,
@@ -58,20 +57,10 @@ export class Player {
         this.spriteSize,
         this.spriteSize
       );
-      //   this.ctx.drawImage(
-      //     this.playerImage,
-      //     offSet,
-      //     0,
-      //     this.spriteSize,
-      //     this.spriteSize,
-      //     this.gridPosition[0] * this.cellSize,
-      //     this.gridPosition[1] * this.cellSize,
-      //     this.spriteSize,
-      //     this.spriteSize
-      //   );
     } catch (error) {
-      this.stopMain;
-      throw new Error(`Error loading image: ${this.playerImage.currentSrc}`);
+      // this.stopMain;
+      // throw new Error(`Error loading image: ${this.playerImage.currentSrc}`);
+      throw new Error(`Error loading image`);
     }
   }
 }
