@@ -13,6 +13,7 @@ export class GameScene implements scene {
     x2: number;
     player: any;
     keysPressed: keysPressed;
+    changeScene: (GameScene: gameScene) => void;
 
     constructor(gameConfig: GameConfig) {
         this.speed = 0.05;
@@ -26,15 +27,23 @@ export class GameScene implements scene {
             ArrowDown: false,
         }
         this.keyboardInput();
+        this.changeScene = gameConfig.changeScene;
     }
 
     init = (): void => { }
+
+    exit = (gameScene: gameScene) => {
+
+    }
 
     update = (dt: number) => {
         this.x += this.speed * dt;
         this.x = (this.x % 100)
         this.x2 += this.speed * 8.4;
-        this.x2 = (this.x2 % 100)
+        this.x2 = (this.x2 % 100);
+        if (this.keysPressed.ArrowDown) {
+            this.exit("GAME");
+        }
     }
 
     render = (ctx: CanvasRenderingContext2D) => {

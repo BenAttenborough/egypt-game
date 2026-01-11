@@ -18,10 +18,13 @@
 
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
+type gameScene = "SPLASH" | "GAME";
+
 interface scene {
   init: () => void;
   update: (dt: number) => void;
   render: (ctx: CanvasRenderingContext2D) => void;
+  exit: (gameScene: gameScene) => void;
 }
 
 interface GameConfig {
@@ -37,4 +40,5 @@ interface GameConfig {
   };
   score: number;
   playerImage: HTMLImageElement;
+  changeScene: (gameScene: gameScene) => void;
 };
