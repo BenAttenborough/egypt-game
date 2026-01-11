@@ -19,6 +19,7 @@
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
 interface scene {
+  init: () => void;
   update: (dt: number) => void;
   render: (ctx: CanvasRenderingContext2D) => void;
 }

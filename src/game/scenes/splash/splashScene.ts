@@ -1,4 +1,7 @@
 export class SplashScene implements scene {
+
+    init = (): void => { }
+
     update = (dt: number): void => {
 
     }

@@ -28,6 +28,8 @@ export class GameScene implements scene {
         this.keyboardInput();
     }
 
+    init = (): void => { }
+
     update = (dt: number) => {
         this.x += this.speed * dt;
         this.x = (this.x % 100)
