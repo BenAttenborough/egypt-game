@@ -1,23 +1,6 @@
-import { GameScene } from "./scenes/gameScene";
+import { SplashScene } from "./scenes/splash/splashScene";
+import { GameScene } from "./scenes/main_game/gameScene";
 import spriteSheet from "./res/sprite-sheet2.png";
-
-
-type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
-
-interface GameConfig {
-    stopMain: number;
-    speed: number;
-    stateChanged: boolean;
-    playerDirection: Direction;
-    keysPressed: {
-        ArrowRight: boolean;
-        ArrowLeft: boolean;
-        ArrowUp: boolean;
-        ArrowDown: boolean;
-    };
-    score: number;
-    playerImage: HTMLImageElement;
-};
 
 function initGameConfig(spriteSheetImg: HTMLImageElement): GameConfig {
     return {
@@ -42,12 +25,12 @@ export class Game {
     gameConfig: GameConfig;
     spriteSheetImg: HTMLImageElement;
 
-
     constructor() {
         this.spriteSheetImg = new Image();
         this.spriteSheetImg.src = spriteSheet;
         this.gameConfig = initGameConfig(this.spriteSheetImg);
-        this.gameState = new GameScene(this.gameConfig)
+        // this.gameState = new GameScene(this.gameConfig);
+        this.gameState = new SplashScene();
     }
 
     update = (dt: number) => {

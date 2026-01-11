@@ -1,4 +1,4 @@
-import { Player } from "../objects/player";
+import { Player } from "../../objects/player";
 
 interface keysPressed {
     ArrowRight: boolean,
@@ -7,14 +7,14 @@ interface keysPressed {
     ArrowDown: boolean,
 }
 
-export class GameScene {
+export class GameScene implements scene {
     speed: number;
     x: number;
     x2: number;
     player: any;
     keysPressed: keysPressed;
 
-    constructor(gameConfig: any) {
+    constructor(gameConfig: GameConfig) {
         this.speed = 0.05;
         this.x = 0;
         this.x2 = 0;
