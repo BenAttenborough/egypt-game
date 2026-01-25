@@ -8,15 +8,16 @@ interface keysPressed {
 }
 
 export class GameScene implements scene {
+  x: number = 1;
+  y: number = 3;
+  movementDelay: number = 100; // delay in milliseconds in character movement
+
   player: any;
   keysPressed: keysPressed;
   changeScene: (GameScene: gameScene) => void;
   playerImage: any;
-  throttleMoveRight: (...args: any[]) => void;
-  x: number;
 
   constructor(gameConfig: GameConfig) {
-    this.x = 1
     this.player = new Player(gameConfig.playerImage);
     this.keysPressed = {
       ArrowRight: false,
@@ -24,10 +25,9 @@ export class GameScene implements scene {
       ArrowUp: false,
       ArrowDown: false,
     };
-    this.keyboardInput();
+    this.addKeyboardListeners();
     this.changeScene = gameConfig.changeScene;
     this.playerImage = gameConfig.playerImage;
-    this.throttleMoveRight = this.throttle(this.moveRight, 100);
   }
 
   init = (): void => {};
@@ -35,13 +35,22 @@ export class GameScene implements scene {
   exit = (gameScene: gameScene) => {};
 
   update = (dt: number) => {
-    if (this.keysPressed.ArrowRight) {
-      this.throttleMoveRight(dt);
-    }
+    this.keyboardUpdate();
   };
 
-  moveRight = () => {
-    this.x += 1;
+  keyboardUpdate = () => {
+    if (this.keysPressed.ArrowRight) {
+      this.throttleMoveRight();
+    }
+    if (this.keysPressed.ArrowLeft) {
+      this.throttleMoveLeft();
+    }
+    if (this.keysPressed.ArrowUp) {
+      this.throttleMoveUp();
+    }
+    if (this.keysPressed.ArrowDown) {
+      this.throttleMoveDown();
+    }
   };
 
   throttle = <Args extends any[], R>(
@@ -59,19 +68,31 @@ export class GameScene implements scene {
     };
   };
 
+  throttleMoveRight = this.throttle(() => {
+    this.x += 1;
+  }, this.movementDelay);
+  throttleMoveLeft = this.throttle(() => {
+    this.x -= 1;
+  }, this.movementDelay);
+  throttleMoveUp = this.throttle(() => {
+    this.y -= 1;
+  }, this.movementDelay);
+  throttleMoveDown = this.throttle(() => {
+    this.y += 1;
+  }, this.movementDelay);
+
   render = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    this.player.drawPlayer(ctx, "DOWN", [this.x, 3]);
-    // ctx.drawImage(this.playerImage, 0, 0, 32, 32, this.x3, 50, 32, 32);
+    this.player.drawPlayer(ctx, "DOWN", [this.x, this.y]);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "white";
-    ctx.strokeRect(18,50,30,30);
+    ctx.strokeRect(18, 50, 30, 30);
     ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
     ctx.fillText("x: " + this.x, 10, 140);
   };
 
-  keyboardInput = () => {
+  addKeyboardListeners = () => {
     window.addEventListener("keydown", (e) => {
       e.preventDefault();
       if (e.code === "ArrowRight") {
@@ -86,8 +107,6 @@ export class GameScene implements scene {
       if (e.code === "ArrowDown") {
         this.keysPressed.ArrowDown = true;
       }
-      // if (this.keysPressed.hasOwnProperty(e.code))
-      //   this.keysPressed[e.code] = true;
     });
 
     window.addEventListener("keyup", (e) => {
@@ -104,8 +123,6 @@ export class GameScene implements scene {
       if (e.code === "ArrowDown") {
         this.keysPressed.ArrowDown = false;
       }
-      // if (this.keysPressed.hasOwnProperty(e.code))
-      //   this.keysPressed[e.code] = false;
     });
   };
 }
