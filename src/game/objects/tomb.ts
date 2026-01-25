@@ -1,27 +1,27 @@
+type Config = {
+  x: number;
+  y: number;
+  ctx: CanvasRenderingContext2D;
+  spriteSheet: HTMLImageElement;
+  type: TombType;
+};
+
 export class Tomb {
   x: number;
   y: number;
   ctx: CanvasRenderingContext2D;
-  cellSize: number;
-  playerImage: HTMLImageElement;
+  cellSize: number = 16;
+  spriteSheet: HTMLImageElement;
   open = false;
-  neighbouringCells: Point[];
+  neighbouringCells: Point[] = this.getNeighbouringCells();
   type: TombType;
 
-  constructor(
-    x: number,
-    y: number,
-    ctx: CanvasRenderingContext2D,
-    playerImage: HTMLImageElement,
-    type: TombType
-  ) {
-    this.x = x;
-    this.y = y;
-    this.ctx = ctx;
-    this.cellSize = 16;
-    this.playerImage = playerImage;
-    this.neighbouringCells = this.getNeighbouringCells();
-    this.type = type;
+  constructor(config: Config) {
+    this.x = config.x;
+    this.y = config.y;
+    this.ctx = config.ctx;
+    this.spriteSheet = config.spriteSheet;
+    this.type = config.type;
   }
 
   getNeighbouringCells(): Point[] {
@@ -55,7 +55,7 @@ export class Tomb {
   draw() {
     if (!this.open) {
       this.ctx.drawImage(
-        this.playerImage,
+        this.spriteSheet,
         0,
         64,
         96,
@@ -95,7 +95,7 @@ export class Tomb {
           break;
       }
       this.ctx.drawImage(
-        this.playerImage,
+        this.spriteSheet,
         offSetX,
         offSetY,
         96,

@@ -6,7 +6,7 @@
 //   get: (point: Point) => any;
 // };
 
-// type TombType = "EMPTY" | "KEY" | "SCROLL" | "COFFIN" | "TREASURE" | "MUMMY";
+type TombType = "EMPTY" | "KEY" | "SCROLL" | "COFFIN" | "TREASURE" | "MUMMY";
 
 // type Tomb = {
 //   open: boolean;
