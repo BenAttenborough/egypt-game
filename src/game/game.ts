@@ -12,9 +12,8 @@ export class Game {
         this.spriteSheetImg = new Image();
         this.spriteSheetImg.src = spriteSheet;
         this.gameConfig = this.initGameConfig(this.spriteSheetImg);
-        // this.gameState = new GameScene(this.gameConfig);
-        this.gameState = new SplashScene(this.gameConfig);
-
+        this.gameState = new GameScene(this.gameConfig);
+        // this.gameState = new SplashScene(this.gameConfig);
     }
 
     update = (dt: number) => {
@@ -22,7 +21,6 @@ export class Game {
     }
 
     render = (ctx: CanvasRenderingContext2D) => {
-        // console.log("Rendering maze game");
         this.gameState.render(ctx);
     }
 

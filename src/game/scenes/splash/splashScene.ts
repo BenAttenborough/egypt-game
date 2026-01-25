@@ -26,7 +26,7 @@ export class SplashScene implements scene {
 
     handleKeyUp = (e: KeyboardEvent): void => {
         e.preventDefault();
-        if (e.code === "ArrowRight") {
+        if (e.code === "Enter") {
             this.exit("GAME");
         }
     }
