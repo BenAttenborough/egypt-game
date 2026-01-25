@@ -1,7 +1,6 @@
 type Config = {
   x: number;
   y: number;
-  ctx: CanvasRenderingContext2D;
   spriteSheet: HTMLImageElement;
   type: TombType;
 };
@@ -9,7 +8,6 @@ type Config = {
 export class Tomb {
   x: number;
   y: number;
-  ctx: CanvasRenderingContext2D;
   cellSize: number = 16;
   spriteSheet: HTMLImageElement;
   open = false;
@@ -19,7 +17,6 @@ export class Tomb {
   constructor(config: Config) {
     this.x = config.x;
     this.y = config.y;
-    this.ctx = config.ctx;
     this.spriteSheet = config.spriteSheet;
     this.type = config.type;
   }
@@ -52,9 +49,9 @@ export class Tomb {
   //   });
   // }
 
-  draw() {
+  draw(ctx: CanvasRenderingContext2D) {
     if (!this.open) {
-      this.ctx.drawImage(
+      ctx.drawImage(
         this.spriteSheet,
         0,
         64,
@@ -94,7 +91,7 @@ export class Tomb {
           offSetY = 64;
           break;
       }
-      this.ctx.drawImage(
+      ctx.drawImage(
         this.spriteSheet,
         offSetX,
         offSetY,

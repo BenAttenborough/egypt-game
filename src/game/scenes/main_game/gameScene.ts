@@ -1,4 +1,5 @@
 import { Player } from "../../objects/player";
+import { Tombs } from "./tombs";
 
 interface keysPressed {
   ArrowRight: boolean;
@@ -14,6 +15,7 @@ export class GameScene implements scene {
   keysPressed: keysPressed;
   changeScene: (GameScene: gameScene) => void;
   playerImage: any;
+  tombs: Tombs;
 
   constructor(gameConfig: GameConfig) {
     this.player = new Player(gameConfig.playerImage);
@@ -26,6 +28,8 @@ export class GameScene implements scene {
     this.addKeyboardListeners();
     this.changeScene = gameConfig.changeScene;
     this.playerImage = gameConfig.playerImage;
+
+    this.tombs = new Tombs(this.playerImage);
   }
 
   init = (): void => {};
