@@ -8,23 +8,15 @@ interface keysPressed {
 }
 
 export class GameScene implements scene {
-  speed: number;
-  speed2: number;
-  x: number;
-  x2: number;
-  x3: number;
   player: any;
   keysPressed: keysPressed;
   changeScene: (GameScene: gameScene) => void;
   playerImage: any;
   throttleMoveRight: (...args: any[]) => void;
+  x: number;
 
   constructor(gameConfig: GameConfig) {
-    this.speed = 0.05;
-    this.speed2 = 0.005;
-    this.x = 0;
-    this.x2 = 0;
-    this.x3 = 0;
+    this.x = 1
     this.player = new Player(gameConfig.playerImage);
     this.keysPressed = {
       ArrowRight: false,
@@ -43,26 +35,21 @@ export class GameScene implements scene {
   exit = (gameScene: gameScene) => {};
 
   update = (dt: number) => {
-    this.x += this.speed * dt;
-    this.x = this.x % 100;
-    this.x2 += this.speed * 8.4;
-    this.x2 = this.x2 % 100;
-    // this.x3 += this.speed2 * 8.4;
-    // this.x3 = (this.x3 % 100);
     if (this.keysPressed.ArrowRight) {
-      // this.x3 += this.speed2 * dt;
-      // this.x3 = (this.x3 % 100)
       this.throttleMoveRight(dt);
     }
   };
 
   moveRight = () => {
-    this.x3 += 1;
+    this.x += 1;
   };
 
-  throttle = (func, delay) => {
+  throttle = <Args extends any[], R>(
+    func: (...args: Args) => R,
+    delay: number
+  ) => {
     let lastCall = 0; // Tracks when function last executed
-    return function (...args) {
+    return (...args: Args) => {
       const now = Date.now(); // Get current timestamp in milliseconds
       if (now - lastCall >= delay) {
         // Check if enough time has passed
@@ -73,18 +60,15 @@ export class GameScene implements scene {
   };
 
   render = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "black";
-    ctx.fillRect(this.x, 10, 10, 10);
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.x2, 30, 10, 10);
-    this.player.drawPlayer(ctx, "DOWN", [this.x3, 3]);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.player.drawPlayer(ctx, "DOWN", [this.x, 3]);
     // ctx.drawImage(this.playerImage, 0, 0, 32, 32, this.x3, 50, 32, 32);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(18,50,30,30);
     ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
     ctx.fillText("x: " + this.x, 10, 140);
-    ctx.fillText("x2: " + this.x2, 10, 160);
-    ctx.fillText("x3: " + this.x3, 10, 180);
   };
 
   keyboardInput = () => {
