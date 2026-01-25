@@ -1,22 +1,19 @@
 export class Player {
   spriteSize: number;
   cellSize: number;
-  // ctx: CanvasRenderingContext2D;
   playerImage: HTMLImageElement;
-  // stopMain: () => void;
 
-  constructor(
-    // ctx: CanvasRenderingContext2D,
-    playerImage: HTMLImageElement,
-    // stopMain: () => void
-  ) {
+  constructor(playerImage: HTMLImageElement) {
     this.spriteSize = 32;
     this.cellSize = 16;
     this.playerImage = playerImage;
-    // this.stopMain = stopMain;
   }
 
-  drawPlayer(ctx: CanvasRenderingContext2D, direction: Direction, gridPosition: Point) {
+  drawPlayer(
+    ctx: CanvasRenderingContext2D,
+    direction: Direction,
+    gridPosition: Point
+  ) {
     let offSet = 0;
     switch (direction) {
       case "UP":
@@ -58,8 +55,6 @@ export class Player {
         this.spriteSize
       );
     } catch (error) {
-      // this.stopMain;
-      // throw new Error(`Error loading image: ${this.playerImage.currentSrc}`);
       throw new Error(`Error loading image`);
     }
   }

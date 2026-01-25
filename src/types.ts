@@ -1,4 +1,3 @@
-// type Point = [number, number];
 // type Quadrant = "TL" | "TR" | "BL" | "BR";
 // type Grid = {
 //   content: any[][];
@@ -16,6 +15,7 @@
 //   type: TombType;
 // };
 
+type Point = [number, number];
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
 type gameScene = "SPLASH" | "GAME";
@@ -41,4 +41,4 @@ interface GameConfig {
   score: number;
   playerImage: HTMLImageElement;
   changeScene: (gameScene: gameScene) => void;
-};
+}

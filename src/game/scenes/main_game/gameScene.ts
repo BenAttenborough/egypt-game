@@ -38,6 +38,17 @@ export class GameScene implements scene {
     this.keyboardUpdate();
   };
 
+  render = (ctx: CanvasRenderingContext2D) => {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.player.drawPlayer(ctx, "DOWN", [this.x, this.y]);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(18, 50, 30, 30);
+    ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
+    ctx.fillText("x: " + this.x, 10, 140);
+  };
+
   keyboardUpdate = () => {
     if (this.keysPressed.ArrowRight) {
       this.throttleMoveRight();
@@ -80,17 +91,6 @@ export class GameScene implements scene {
   throttleMoveDown = this.throttle(() => {
     this.y += 1;
   }, this.movementDelay);
-
-  render = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    this.player.drawPlayer(ctx, "DOWN", [this.x, this.y]);
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "white";
-    ctx.strokeRect(18, 50, 30, 30);
-    ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
-    ctx.fillText("x: " + this.x, 10, 140);
-  };
 
   addKeyboardListeners = () => {
     window.addEventListener("keydown", (e) => {
