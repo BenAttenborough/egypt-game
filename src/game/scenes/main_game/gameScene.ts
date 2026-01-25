@@ -8,8 +8,6 @@ interface keysPressed {
 }
 
 export class GameScene implements scene {
-  x: number = 1;
-  y: number = 3;
   movementDelay: number = 100; // delay in milliseconds in character movement
 
   player: any;
@@ -41,12 +39,11 @@ export class GameScene implements scene {
   render = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    this.player.drawPlayer(ctx, "DOWN", [this.x, this.y]);
+    this.player.drawPlayer(ctx);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "white";
     ctx.strokeRect(18, 50, 30, 30);
     ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
-    ctx.fillText("x: " + this.x, 10, 140);
   };
 
   keyboardUpdate = () => {
@@ -80,16 +77,16 @@ export class GameScene implements scene {
   };
 
   throttleMoveRight = this.throttle(() => {
-    this.x += 1;
+    this.player.moveRight();
   }, this.movementDelay);
   throttleMoveLeft = this.throttle(() => {
-    this.x -= 1;
+    this.player.moveLeft();
   }, this.movementDelay);
   throttleMoveUp = this.throttle(() => {
-    this.y -= 1;
+    this.player.moveUp();
   }, this.movementDelay);
   throttleMoveDown = this.throttle(() => {
-    this.y += 1;
+    this.player.moveDown();
   }, this.movementDelay);
 
   addKeyboardListeners = () => {

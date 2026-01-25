@@ -1,42 +1,56 @@
 export class Player {
-  spriteSize: number;
-  cellSize: number;
-  playerImage: HTMLImageElement;
+  spriteSize: number = 32;
+  cellSize: number = 16;
+  x: number = 1;
+  y: number = 3;
+  direction: Direction = "DOWN";
 
+  playerImage: HTMLImageElement;
   constructor(playerImage: HTMLImageElement) {
-    this.spriteSize = 32;
-    this.cellSize = 16;
     this.playerImage = playerImage;
   }
 
-  drawPlayer(
-    ctx: CanvasRenderingContext2D,
-    direction: Direction,
-    gridPosition: Point
-  ) {
+  moveRight = () => {
+    this.direction = "RIGHT";
+    this.x++;
+  };
+  moveLeft = () => {
+    this.direction = "LEFT";
+    this.x--;
+  };
+  moveUp = () => {
+    this.direction = "UP";
+    this.y--;
+  };
+  moveDown = () => {
+    this.direction = "DOWN";
+    this.y++;
+  };
+
+  drawPlayer(ctx: CanvasRenderingContext2D) {
     let offSet = 0;
-    switch (direction) {
+    switch (this.direction) {
       case "UP":
         offSet = 6 * this.spriteSize;
-        if (gridPosition[1] % 2 === 0) {
+        if (this.y % 2 === 0) {
           offSet += this.spriteSize;
         }
         break;
       case "RIGHT":
         offSet = 0;
-        if (gridPosition[0] % 2 === 0) {
+        if (this.x % 2 === 0) {
           offSet += this.spriteSize;
         }
         break;
       case "DOWN":
         offSet = 4 * this.spriteSize;
-        if (gridPosition[1] % 2 === 0) {
+        if (this.y % 2 === 0) {
           offSet += this.spriteSize;
         }
         break;
       case "LEFT":
         offSet = 2 * this.spriteSize;
-        if (gridPosition[0] % 2 === 0) {
+        if (this.x % 2 === 0) {
           offSet += this.spriteSize;
         }
         break;
@@ -49,8 +63,8 @@ export class Player {
         0,
         this.spriteSize,
         this.spriteSize,
-        gridPosition[0] * this.cellSize,
-        gridPosition[1] * this.cellSize,
+        this.x * this.cellSize,
+        this.y * this.cellSize,
         this.spriteSize,
         this.spriteSize
       );
