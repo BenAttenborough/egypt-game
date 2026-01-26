@@ -105,26 +105,3 @@ export class Tomb {
     }
   }
 }
-
-export let tombTypes: TombType[] = [
-  "KEY",
-  "COFFIN",
-  "SCROLL",
-  "EMPTY",
-  "EMPTY",
-  "EMPTY",
-  "EMPTY",
-  "EMPTY",
-  "EMPTY",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "TREASURE",
-  "MUMMY",
-];

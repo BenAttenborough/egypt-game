@@ -39,6 +39,6 @@ interface GameConfig {
     ArrowDown: boolean;
   };
   score: number;
-  playerImage: HTMLImageElement;
+  spriteSheet: HTMLImageElement;
   changeScene: (gameScene: gameScene) => void;
 }

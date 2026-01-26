@@ -14,11 +14,11 @@ export class GameScene implements scene {
   player: any;
   keysPressed: keysPressed;
   changeScene: (GameScene: gameScene) => void;
-  playerImage: any;
+  spriteSheet: any;
   tombs: Tombs;
 
   constructor(gameConfig: GameConfig) {
-    this.player = new Player(gameConfig.playerImage);
+    this.player = new Player(gameConfig.spriteSheet);
     this.keysPressed = {
       ArrowRight: false,
       ArrowLeft: false,
@@ -27,9 +27,9 @@ export class GameScene implements scene {
     };
     this.addKeyboardListeners();
     this.changeScene = gameConfig.changeScene;
-    this.playerImage = gameConfig.playerImage;
+    this.spriteSheet = gameConfig.spriteSheet;
 
-    this.tombs = new Tombs(this.playerImage);
+    this.tombs = new Tombs(this.spriteSheet);
   }
 
   init = (): void => {};
@@ -44,6 +44,7 @@ export class GameScene implements scene {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     this.player.drawPlayer(ctx);
+    this.tombs.renderTombs(ctx);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "white";
     ctx.strokeRect(18, 50, 30, 30);

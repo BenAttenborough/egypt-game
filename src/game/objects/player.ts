@@ -5,9 +5,9 @@ export class Player {
   y: number = 3;
   direction: Direction = "DOWN";
 
-  playerImage: HTMLImageElement;
-  constructor(playerImage: HTMLImageElement) {
-    this.playerImage = playerImage;
+  spriteSheet: HTMLImageElement;
+  constructor(spriteSheet: HTMLImageElement) {
+    this.spriteSheet = spriteSheet;
   }
 
   moveRight = () => {
@@ -58,7 +58,7 @@ export class Player {
 
     try {
       ctx.drawImage(
-        this.playerImage,
+        this.spriteSheet,
         offSet,
         0,
         this.spriteSize,
