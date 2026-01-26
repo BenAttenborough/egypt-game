@@ -1,8 +1,8 @@
 export class Player {
   spriteSize: number = 32;
   cellSize: number = 16;
-  x: number = 1;
-  y: number = 3;
+  x: number = 16;
+  y: number = 2;
   direction: Direction = "DOWN";
 
   spriteSheet: HTMLImageElement;
