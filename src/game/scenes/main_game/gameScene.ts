@@ -45,10 +45,6 @@ export class GameScene implements scene {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     this.player.drawPlayer(ctx);
     this.tombs.renderTombs(ctx);
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "white";
-    ctx.strokeRect(18, 50, 30, 30);
-    ctx.fillText("ArrowRight: " + this.keysPressed.ArrowRight, 10, 120);
   };
 
   keyboardUpdate = () => {

@@ -10,7 +10,7 @@ export class Tombs {
   }
 
   renderTombs = (ctx: CanvasRenderingContext2D): void => {
-    for (const tomb of this.tombs) tomb.draw(ctx);
+    this.tombs.forEach((t) => t.draw(ctx));
   };
 
   getTombs = (): Tomb[] => {
