@@ -1,5 +1,8 @@
 import { Player } from "../../objects/player";
 import { Tombs } from "./tombs";
+import { playfield } from "./playfield";
+import { Grid } from "./grid";
+import { doubleArrayArray } from "../../../helpers/util";
 
 interface keysPressed {
   ArrowRight: boolean;
@@ -10,6 +13,7 @@ interface keysPressed {
 
 export class GameScene implements scene {
   movementDelay: number = 100; // delay in milliseconds in character movement
+  grid: Grid = new Grid(doubleArrayArray(playfield()));
 
   player: any;
   keysPressed: keysPressed;
@@ -49,16 +53,25 @@ export class GameScene implements scene {
 
   keyboardUpdate = () => {
     if (this.keysPressed.ArrowRight) {
-      this.throttleMoveRight();
+      // console.log(this.player);
+      if (this.grid.canMove([this.player.x, this.player.y], "RIGHT")) {
+        this.throttleMoveRight();
+      }
     }
     if (this.keysPressed.ArrowLeft) {
-      this.throttleMoveLeft();
+      if (this.grid.canMove([this.player.x, this.player.y], "LEFT")) {
+        this.throttleMoveLeft();
+      }
     }
     if (this.keysPressed.ArrowUp) {
-      this.throttleMoveUp();
+      if (this.grid.canMove([this.player.x, this.player.y], "UP")) {
+        this.throttleMoveUp();
+      }
     }
     if (this.keysPressed.ArrowDown) {
-      this.throttleMoveDown();
+      if (this.grid.canMove([this.player.x, this.player.y], "DOWN")) {
+        this.throttleMoveDown();
+      }
     }
   };
 
