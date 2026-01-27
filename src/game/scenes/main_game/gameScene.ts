@@ -3,6 +3,7 @@ import { Tombs } from "./tombs";
 import { playfield } from "./playfield";
 import { Grid } from "./grid";
 import { doubleArrayArray } from "../../../helpers/util";
+import { drawFeet } from "../../objects/feet";
 
 interface keysPressed {
   ArrowRight: boolean;
@@ -47,6 +48,7 @@ export class GameScene implements scene {
   render = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    drawFeet(this.grid.content, ctx, this.spriteSheet);
     this.player.drawPlayer(ctx);
     this.tombs.renderTombs(ctx);
   };
@@ -92,15 +94,19 @@ export class GameScene implements scene {
 
   throttleMoveRight = this.throttle(() => {
     this.player.moveRight();
+    this.grid.setBlockFromOrigin([this.player.x, this.player.y], 2);
   }, this.movementDelay);
   throttleMoveLeft = this.throttle(() => {
     this.player.moveLeft();
+    this.grid.setBlockFromOrigin([this.player.x, this.player.y], 3);
   }, this.movementDelay);
   throttleMoveUp = this.throttle(() => {
     this.player.moveUp();
+    this.grid.setBlockFromOrigin([this.player.x, this.player.y], 4);
   }, this.movementDelay);
   throttleMoveDown = this.throttle(() => {
     this.player.moveDown();
+    this.grid.setBlockFromOrigin([this.player.x, this.player.y], 5);
   }, this.movementDelay);
 
   addKeyboardListeners = () => {

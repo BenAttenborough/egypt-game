@@ -1,7 +1,7 @@
-import { drawQuarterImage } from "../helpers/render";
+import { drawQuarterImage } from "../../helpers/render";
 
 export function drawFeet(
-  gridContent: any,
+  gridContent: number[][],
   ctx: CanvasRenderingContext2D,
   spriteSheetImg: HTMLImageElement
 ) {

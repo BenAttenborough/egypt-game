@@ -5,7 +5,6 @@ export class Grid {
   }
 
   get([x, y]: Point): any {
-    // console.log("this.content [1]: " + this.content[1][1]);
     return this.content[y]?.[x];
   }
 
@@ -17,9 +16,9 @@ export class Grid {
   //     return this.get(this.position);
   //   }
 
-  //   set([x, y]: Point, data: any) {
-  //     this.content[y][x] = data;
-  //   }
+  set([x, y]: Point, val: number) {
+    this.content[y][x] = val;
+  }
 
   //   map(func: (x: number) => number[][]): Grid {
   //     const newContent = this.content.map((row) => row.map(func));
@@ -140,4 +139,30 @@ export class Grid {
   //   getOrthogonalValuesFromCurrentPosition(): any[] {
   //     return this.getOrthogonalValues(this.position);
   //   }
+
+  setBlockFromOrigin(position: Point, val: number) {
+    if (val === 4) {
+      // UP
+      this.set([position[0], position[1] + 2], val);
+      this.set([position[0] + 1, position[1] + 2], val);
+    }
+
+    if (val === 5) {
+      // DOWN
+      this.set([position[0], position[1] - 1], val);
+      this.set([position[0] + 1, position[1] - 1], val);
+    }
+
+    if (val === 3) {
+      // LEFT
+      this.set([position[0] + 2, position[1]], val);
+      this.set([position[0] + 2, position[1] + 1], val);
+    }
+
+    if (val === 2) {
+      // RIGHT
+      this.set([position[0] - 1, position[1]], val);
+      this.set([position[0] - 1, position[1] + 1], val);
+    }
+  }
 }
