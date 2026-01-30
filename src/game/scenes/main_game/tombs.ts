@@ -55,4 +55,29 @@ export class Tombs {
     "TREASURE",
     "MUMMY",
   ];
+
+  checkTombs = (gridContent: number[][]) => {
+    this.tombs.forEach((tomb) => {
+      if (
+        !tomb.open &&
+        tomb.neighbouringCells.every(
+          (point) => gridContent[point[1]][point[0]] > 1
+        )
+      ) {
+        tomb.open = true;
+        switch (tomb.type) {
+          case "TREASURE":
+            // MyGame.score += 5;
+            break;
+
+          case "COFFIN":
+            // MyGame.score += 50;
+            break;
+
+          default:
+            break;
+        }
+      }
+    });
+  };
 }

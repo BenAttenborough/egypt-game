@@ -23,7 +23,10 @@ export class GameScene implements scene {
   tombs: Tombs;
 
   constructor(gameConfig: GameConfig) {
+    this.changeScene = gameConfig.changeScene;
+    this.spriteSheet = gameConfig.spriteSheet;
     this.player = new Player(gameConfig.spriteSheet);
+
     this.keysPressed = {
       ArrowRight: false,
       ArrowLeft: false,
@@ -31,9 +34,6 @@ export class GameScene implements scene {
       ArrowDown: false,
     };
     this.addKeyboardListeners();
-    this.changeScene = gameConfig.changeScene;
-    this.spriteSheet = gameConfig.spriteSheet;
-
     this.tombs = new Tombs(this.spriteSheet);
   }
 
@@ -58,21 +58,25 @@ export class GameScene implements scene {
       // console.log(this.player);
       if (this.grid.canMove([this.player.x, this.player.y], "RIGHT")) {
         this.throttleMoveRight();
+        this.tombs.checkTombs(this.grid.content);
       }
     }
     if (this.keysPressed.ArrowLeft) {
       if (this.grid.canMove([this.player.x, this.player.y], "LEFT")) {
         this.throttleMoveLeft();
+        this.tombs.checkTombs(this.grid.content);
       }
     }
     if (this.keysPressed.ArrowUp) {
       if (this.grid.canMove([this.player.x, this.player.y], "UP")) {
         this.throttleMoveUp();
+        this.tombs.checkTombs(this.grid.content);
       }
     }
     if (this.keysPressed.ArrowDown) {
       if (this.grid.canMove([this.player.x, this.player.y], "DOWN")) {
         this.throttleMoveDown();
+        this.tombs.checkTombs(this.grid.content);
       }
     }
   };

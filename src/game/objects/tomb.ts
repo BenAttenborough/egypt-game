@@ -11,14 +11,16 @@ export class Tomb {
   cellSize: number = 16;
   spriteSheet: HTMLImageElement;
   open = false;
-  neighbouringCells: Point[] = this.getNeighbouringCells();
+  neighbouringCells: Point[];
   type: TombType;
 
   constructor(config: Config) {
+    console.log("Config " + config.x);
     this.x = config.x;
     this.y = config.y;
     this.spriteSheet = config.spriteSheet;
     this.type = config.type;
+    this.neighbouringCells = this.getNeighbouringCells();
   }
 
   getNeighbouringCells(): Point[] {
