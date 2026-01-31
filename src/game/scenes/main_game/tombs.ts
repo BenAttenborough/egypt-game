@@ -3,9 +3,14 @@ import { Tomb } from "../../objects/tomb";
 export class Tombs {
   spriteSheet: HTMLImageElement;
   tombs: Tomb[];
+  updateScore: (points: number) => void;
 
-  constructor(spriteSheet: HTMLImageElement) {
+  constructor(
+    spriteSheet: HTMLImageElement,
+    updateScore: (points: number) => void
+  ) {
     this.spriteSheet = spriteSheet;
+    this.updateScore = updateScore;
     this.tombs = this.getTombs();
   }
 
@@ -67,11 +72,11 @@ export class Tombs {
         tomb.open = true;
         switch (tomb.type) {
           case "TREASURE":
-            // MyGame.score += 5;
+            this.updateScore(5);
             break;
 
           case "COFFIN":
-            // MyGame.score += 50;
+            this.updateScore(50);
             break;
 
           default:

@@ -37,7 +37,7 @@ export class GameScene implements scene {
       ArrowDown: false,
     };
     this.addKeyboardListeners();
-    this.tombs = new Tombs(this.spriteSheet);
+    this.tombs = new Tombs(this.spriteSheet, this.updateScore);
   }
 
   init = (): void => {};
@@ -78,6 +78,10 @@ export class GameScene implements scene {
       0,
       this.cellSize
     );
+  };
+
+  updateScore = (points: number) => {
+    this.score += points; // Update score here
   };
 
   keyboardUpdate = () => {

@@ -15,7 +15,6 @@ export class Tomb {
   type: TombType;
 
   constructor(config: Config) {
-    console.log("Config " + config.x);
     this.x = config.x;
     this.y = config.y;
     this.spriteSheet = config.spriteSheet;
@@ -42,14 +41,6 @@ export class Tomb {
 
     return container;
   }
-
-  // printCellValues(grid) {
-  //   grid.forEach((row) => {
-  //     row.forEach((col) => {
-  //       console.log(col);
-  //     });
-  //   });
-  // }
 
   draw(ctx: CanvasRenderingContext2D) {
     if (!this.open) {
