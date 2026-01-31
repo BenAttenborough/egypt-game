@@ -1,5 +1,6 @@
 import { Player } from "../../objects/player";
 import { Tombs } from "./tombs";
+import { Mummies } from "./mummies";
 import { playfield } from "./playfield";
 import { Grid } from "./grid";
 import { doubleArrayArray } from "../../../helpers/util";
@@ -24,6 +25,7 @@ export class GameScene implements scene {
   changeScene: (GameScene: gameScene) => void;
   spriteSheet: any;
   tombs: Tombs;
+  mummies: Mummies;
 
   constructor(gameConfig: GameConfig) {
     this.changeScene = gameConfig.changeScene;
@@ -38,9 +40,17 @@ export class GameScene implements scene {
     };
     this.addKeyboardListeners();
     this.tombs = new Tombs(this.spriteSheet, this.updateScore);
+    this.mummies = new Mummies(this.spriteSheet);
+    this.init();
   }
 
-  init = (): void => {};
+  init = (): void => {
+    this.mummies.addMummy({
+      x: 40,
+      y: 28,
+      spriteSheet: this.spriteSheet,
+    });
+  };
 
   exit = (gameScene: gameScene) => {};
 
@@ -54,6 +64,7 @@ export class GameScene implements scene {
     drawFeet(this.grid.content, ctx, this.spriteSheet);
     this.player.drawPlayer(ctx);
     this.tombs.renderTombs(ctx);
+    this.mummies.drawMummies(ctx);
   };
 
   renderBackground = (ctx: CanvasRenderingContext2D) => {

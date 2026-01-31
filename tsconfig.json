@@ -17,7 +17,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,  // Disallows implicit 'any' types
+    "noImplicitReturns": true,  // Requires all code paths to return a value
+    "noImplicitThis": true,  // Disallows 'this' in contexts where it's not clear
+    "strictNullChecks": true,  // Treats 'null' and 'undefined' strictly
+    "strictFunctionTypes": true,  // Stricter function type checking
+    "strictBindCallApply": true,  // Stricter checking for bind/call/apply
+    "strictPropertyInitialization": true  // Requires properties to be initialized
   },
   "include": ["src"]
 }
