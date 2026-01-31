@@ -14,7 +14,10 @@ interface keysPressed {
 
 export class GameScene implements scene {
   movementDelay: number = 100; // delay in milliseconds in character movement
+  cellSize: number = 32;
+  colorOrange: string = "#ff8000";
   grid: Grid = new Grid(doubleArrayArray(playfield()));
+  score: number = 0;
 
   player: any;
   keysPressed: keysPressed;
@@ -46,11 +49,35 @@ export class GameScene implements scene {
   };
 
   render = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.renderBackground(ctx);
+    this.renderUI(ctx);
     drawFeet(this.grid.content, ctx, this.spriteSheet);
     this.player.drawPlayer(ctx);
     this.tombs.renderTombs(ctx);
+  };
+
+  renderBackground = (ctx: CanvasRenderingContext2D) => {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "#3954ff";
+    ctx.fillRect(0, 0, ctx.canvas.width, this.cellSize);
+    ctx.fillRect(0, this.cellSize, this.cellSize * 8, this.cellSize);
+    ctx.fillRect(
+      this.cellSize * 9,
+      this.cellSize,
+      ctx.canvas.width,
+      this.cellSize
+    );
+  };
+
+  renderUI = (ctx: CanvasRenderingContext2D) => {
+    ctx.fillStyle = this.colorOrange;
+    ctx.font = "18px Amstrad";
+    ctx.fillText(
+      "SCORE " + ("00000" + this.score.toString()).slice(-5),
+      0,
+      this.cellSize
+    );
   };
 
   keyboardUpdate = () => {
