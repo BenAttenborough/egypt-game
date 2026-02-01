@@ -67,55 +67,31 @@ export class Mummy {
     }
   }
 
-  // throttle = <Args extends any[], R>(
-  //   func: (...args: Args) => R,
-  //   delay: number
-  // ) => {
-  //   let lastCall = 0; // Tracks when function last executed
-  //   return (...args: Args) => {
-  //     const now = Date.now(); // Get current timestamp in milliseconds
-  //     if (now - lastCall >= delay) {
-  //       // Check if enough time has passed
-  //       func.apply(this, args); // Execute the function
-  //       lastCall = now; // Update the last call time
-  //     }
-  //   };
-  // };
-
-  // throttleMoveRight = this.throttle(() => {
-  //   this.direction = "RIGHT";
-  //   this.x++;
-  // }, this.movementDelay);
-  // throttleMoveLeft = this.throttle(() => {
-  //   this.direction = "LEFT";
-  //   this.x--;
-  // }, this.movementDelay);
-  // throttleMoveUp = this.throttle(() => {
-  //   this.direction = "UP";
-  //   this.y--;
-  // }, this.movementDelay);
-  // throttleMoveDown = this.throttle(() => {
-  //   this.direction = "DOWN";
-  //   this.y++;
-  // }, this.movementDelay);
-
   moveInternal(direction: Direction) {
     switch (direction) {
       case "UP":
         this.direction = "UP";
-        this.y--;
+        if (this.y > 0) {
+          this.y--;
+        }
         break;
       case "DOWN":
         this.direction = "DOWN";
-        this.y++;
+        if (this.y < 26) {
+          this.y++;
+        }
         break;
       case "RIGHT":
         this.direction = "RIGHT";
-        this.x++;
+        if (this.x < 40) {
+          this.x++;
+        }
         break;
       case "LEFT":
         this.direction = "LEFT";
-        this.x--;
+        if (this.x > 0) {
+          this.x--;
+        }
         break;
     }
   }

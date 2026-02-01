@@ -50,7 +50,7 @@ export class GameScene implements scene {
       y: 28,
       spriteSheet: this.spriteSheet,
     });
-    // this.mummies.mummies[0].move(this.mummies.mummies[0].direction);
+    this.mummies.mummies[0].move(this.mummies.mummies[0].direction);
   };
 
   exit = (gameScene: gameScene) => {};
