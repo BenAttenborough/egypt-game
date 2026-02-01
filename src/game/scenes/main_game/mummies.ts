@@ -21,4 +21,10 @@ export class Mummies {
       mummy.draw(ctx);
     });
   };
+
+  moveMummies = () => {
+    this.mummies.forEach((mummy) => {
+      mummy.move(mummy.direction);
+    });
+  };
 }

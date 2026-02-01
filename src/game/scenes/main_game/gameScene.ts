@@ -50,12 +50,14 @@ export class GameScene implements scene {
       y: 28,
       spriteSheet: this.spriteSheet,
     });
+    // this.mummies.mummies[0].move(this.mummies.mummies[0].direction);
   };
 
   exit = (gameScene: gameScene) => {};
 
   update = (dt: number) => {
     this.keyboardUpdate();
+    // this.mummies.moveMummies();
   };
 
   render = (ctx: CanvasRenderingContext2D) => {

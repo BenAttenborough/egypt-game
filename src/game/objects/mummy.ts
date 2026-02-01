@@ -10,6 +10,7 @@ export class Mummy {
   cellSize: number = 16;
   direction: Direction = "LEFT";
   spriteSize: number = 32;
+  movementDelay: number = 200; // delay in milliseconds in character movement
 
   x: number;
   y: number;
@@ -38,13 +39,13 @@ export class Mummy {
         break;
       case "LEFT":
         offset = 2 * this.spriteSize;
-        if (this.y % 2 === 0) {
+        if (this.x % 2 === 0) {
           offset += this.spriteSize;
         }
         break;
       case "RIGHT":
         offset = 0 * this.spriteSize;
-        if (this.y % 2 === 0) {
+        if (this.x % 2 === 0) {
           offset += this.spriteSize;
         }
         break;
@@ -64,5 +65,64 @@ export class Mummy {
     } catch (error) {
       throw new Error(`Error loading image`);
     }
+  }
+
+  // throttle = <Args extends any[], R>(
+  //   func: (...args: Args) => R,
+  //   delay: number
+  // ) => {
+  //   let lastCall = 0; // Tracks when function last executed
+  //   return (...args: Args) => {
+  //     const now = Date.now(); // Get current timestamp in milliseconds
+  //     if (now - lastCall >= delay) {
+  //       // Check if enough time has passed
+  //       func.apply(this, args); // Execute the function
+  //       lastCall = now; // Update the last call time
+  //     }
+  //   };
+  // };
+
+  // throttleMoveRight = this.throttle(() => {
+  //   this.direction = "RIGHT";
+  //   this.x++;
+  // }, this.movementDelay);
+  // throttleMoveLeft = this.throttle(() => {
+  //   this.direction = "LEFT";
+  //   this.x--;
+  // }, this.movementDelay);
+  // throttleMoveUp = this.throttle(() => {
+  //   this.direction = "UP";
+  //   this.y--;
+  // }, this.movementDelay);
+  // throttleMoveDown = this.throttle(() => {
+  //   this.direction = "DOWN";
+  //   this.y++;
+  // }, this.movementDelay);
+
+  moveInternal(direction: Direction) {
+    switch (direction) {
+      case "UP":
+        this.direction = "UP";
+        this.y--;
+        break;
+      case "DOWN":
+        this.direction = "DOWN";
+        this.y++;
+        break;
+      case "RIGHT":
+        this.direction = "RIGHT";
+        this.x++;
+        break;
+      case "LEFT":
+        this.direction = "LEFT";
+        this.x--;
+        break;
+    }
+  }
+
+  move(direction: Direction) {
+    console.log("Tick");
+    this.moveInternal(direction);
+    setTimeout(() => this.move(direction), 200);
   }
 }
