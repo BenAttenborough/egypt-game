@@ -20,7 +20,7 @@ export class GameScene implements scene {
   grid: Grid = new Grid(doubleArrayArray(playfield()));
   score: number = 0;
 
-  player: any;
+  player: Player;
   keysPressed: keysPressed;
   changeScene: (GameScene: gameScene) => void;
   spriteSheet: any;
@@ -49,8 +49,9 @@ export class GameScene implements scene {
       x: 40,
       y: 28,
       spriteSheet: this.spriteSheet,
+      player: this.player,
     });
-    this.mummies.mummies[0].move(this.mummies.mummies[0].direction);
+    this.mummies.mummies[0].move();
   };
 
   exit = (gameScene: gameScene) => {};

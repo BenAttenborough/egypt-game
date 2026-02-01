@@ -1,4 +1,5 @@
 import { Mummy } from "../../objects/mummy";
+import { Player } from "../../objects/player";
 
 export class Mummies {
   spriteSheet: HTMLImageElement;
@@ -12,6 +13,7 @@ export class Mummies {
     x: number;
     y: number;
     spriteSheet: HTMLImageElement;
+    player: Player;
   }) => {
     this.mummies.push(new Mummy(config));
   };
@@ -24,7 +26,7 @@ export class Mummies {
 
   moveMummies = () => {
     this.mummies.forEach((mummy) => {
-      mummy.move(mummy.direction);
+      mummy.move();
     });
   };
 }

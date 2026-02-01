@@ -1,7 +1,10 @@
+import { Player } from "./player";
+
 type Config = {
   x: number;
   y: number;
   spriteSheet: HTMLImageElement;
+  player: Player;
 };
 
 export class Mummy {
@@ -15,11 +18,13 @@ export class Mummy {
   x: number;
   y: number;
   spriteSheet: HTMLImageElement;
+  player: Player;
 
   constructor(config: Config) {
     this.x = config.x;
     this.y = config.y;
     this.spriteSheet = config.spriteSheet;
+    this.player = config.player;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -96,9 +101,23 @@ export class Mummy {
     }
   }
 
-  move(direction: Direction) {
-    console.log("Tick");
+  move() {
+    // console.log("Tick");
+    let direction: Direction;
+
+    if (this.player.x > this.x && this.x < 40) {
+      direction = "RIGHT";
+    } else if (this.player.x < this.x && this.x > 0) {
+      direction = "LEFT";
+    } else if (this.player.y > this.y && this.y < 26) {
+      direction = "DOWN";
+    } else if (this.player.y < this.y && this.y > 0) {
+      direction = "UP";
+    } else {
+      direction = this.direction; // Fallback to current if no movement possible
+    }
+
     this.moveInternal(direction);
-    setTimeout(() => this.move(direction), 200);
+    setTimeout(() => this.move(), 200);
   }
 }
