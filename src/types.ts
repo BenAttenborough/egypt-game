@@ -18,6 +18,8 @@ type TombType = "EMPTY" | "KEY" | "SCROLL" | "COFFIN" | "TREASURE" | "MUMMY";
 type Point = [number, number];
 type Direction = "UP" | "RIGHT" | "DOWN" | "LEFT";
 
+type Axis = "X" | "Y";
+
 type gameScene = "SPLASH" | "GAME";
 
 interface scene {

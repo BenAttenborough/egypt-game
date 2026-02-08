@@ -14,6 +14,8 @@ export class Mummy {
   direction: Direction = "LEFT";
   spriteSize: number = 32;
   movementDelay: number = 200; // delay in milliseconds in character movement
+  xCorners: number[] = [0, 8, 16, 24, 32, 40];
+  yCorners: number[] = [4, 10, 16, 22, 28];
 
   x: number;
   y: number;
@@ -76,13 +78,13 @@ export class Mummy {
     switch (direction) {
       case "UP":
         this.direction = "UP";
-        if (this.y > 0) {
+        if (this.y > 2) {
           this.y--;
         }
         break;
       case "DOWN":
         this.direction = "DOWN";
-        if (this.y < 26) {
+        if (this.y < 28) {
           this.y++;
         }
         break;
@@ -101,20 +103,49 @@ export class Mummy {
     }
   }
 
+  setDirection(): Direction {
+    let direction: Direction = "UP";
+    let xDistance = Math.abs(this.player.x - this.x);
+    let yDistance = Math.abs(this.player.y - this.y);
+    if (xDistance < yDistance) {
+      if (this.player.y > this.y) {
+        direction = "DOWN";
+      } else {
+        direction = "UP";
+      }
+    } else {
+      if (this.player.x > this.x) {
+        direction = "RIGHT";
+      } else {
+        direction = "LEFT";
+      }
+    }
+    return direction;
+  }
+
+  // recalculateDriection(): Direction {
+  //   let direction = this.direction;
+
+  //   if (this.player.x > this.x && this.x < 40) {
+  //     direction = "RIGHT";
+  //   } else if (this.player.x < this.x && this.x > 0) {
+  //     direction = "LEFT";
+  //   } else if (this.player.y > this.y && this.y < 26) {
+  //     direction = "DOWN";
+  //   } else if (this.player.y < this.y && this.y > 0) {
+  //     direction = "UP";
+  //   } else {
+  //     direction = this.direction; // Fallback to current if no movement possible
+  //   }
+  //   return direction;
+  // }
+
   move() {
     // console.log("Tick");
-    let direction: Direction;
+    let direction: Direction = this.direction;
 
-    if (this.player.x > this.x && this.x < 40) {
-      direction = "RIGHT";
-    } else if (this.player.x < this.x && this.x > 0) {
-      direction = "LEFT";
-    } else if (this.player.y > this.y && this.y < 26) {
-      direction = "DOWN";
-    } else if (this.player.y < this.y && this.y > 0) {
-      direction = "UP";
-    } else {
-      direction = this.direction; // Fallback to current if no movement possible
+    if (this.xCorners.includes(this.x) && this.yCorners.includes(this.y)) {
+      direction = this.setDirection();
     }
 
     this.moveInternal(direction);

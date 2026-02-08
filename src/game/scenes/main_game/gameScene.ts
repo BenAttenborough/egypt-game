@@ -88,6 +88,11 @@ export class GameScene implements scene {
     ctx.fillStyle = this.colorOrange;
     ctx.font = "18px Amstrad";
     ctx.fillText(
+      this.player.x.toString() + ", " + this.player.y.toString(),
+      560,
+      30
+    );
+    ctx.fillText(
       "SCORE " + ("00000" + this.score.toString()).slice(-5),
       0,
       this.cellSize
