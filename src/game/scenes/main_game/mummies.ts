@@ -14,6 +14,7 @@ export class Mummies {
     y: number;
     spriteSheet: HTMLImageElement;
     player: Player;
+    active: boolean;
   }) => {
     this.mummies.push(new Mummy(config));
   };

@@ -50,8 +50,12 @@ export class GameScene implements scene {
       y: 28,
       spriteSheet: this.spriteSheet,
       player: this.player,
+      active: true,
     });
     this.mummies.mummies.forEach((mummy) => {
+      // Architectural q here. Seems odd this isn't in the update until you realise
+      // mummy has a throttled update. Still it feels wrong, perhaps a throttled update
+      // should be within this file?
       mummy.update();
     });
   };
@@ -62,6 +66,11 @@ export class GameScene implements scene {
     this.keyboardUpdate();
     // this.mummies.moveMummies();
   };
+
+  // throttledUpdate() {
+  //   console.log("Throttled update");
+  //   setTimeout(() => this.throttledUpdate(), 500);
+  // }
 
   render = (ctx: CanvasRenderingContext2D) => {
     this.renderBackground(ctx);

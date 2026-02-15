@@ -5,6 +5,7 @@ type Config = {
   y: number;
   spriteSheet: HTMLImageElement;
   player: Player;
+  active: boolean;
 };
 
 export class Mummy {
