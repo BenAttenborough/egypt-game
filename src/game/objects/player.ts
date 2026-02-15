@@ -4,6 +4,7 @@ export class Player {
   x: number = 16;
   y: number = 2;
   direction: Direction = "DOWN";
+  lives: number = 5;
 
   spriteSheet: HTMLImageElement;
   constructor(spriteSheet: HTMLImageElement) {

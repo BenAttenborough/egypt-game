@@ -89,11 +89,12 @@ export class GameScene implements scene {
   renderUI = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = this.colorOrange;
     ctx.font = "18px Amstrad";
-    ctx.fillText(
-      this.player.x.toString() + ", " + this.player.y.toString(),
-      560,
-      30
-    );
+    // ctx.fillText(
+    //   this.player.x.toString() + ", " + this.player.y.toString(),
+    //   560,
+    //   30
+    // );
+    ctx.fillText("LIVES: " + this.player.lives.toString(), 520, 30);
     ctx.fillText(
       "SCORE " + ("00000" + this.score.toString()).slice(-5),
       0,

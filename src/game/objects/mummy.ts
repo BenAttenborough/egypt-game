@@ -141,6 +141,7 @@ export class Mummy {
     }
     if (this.checkCollision()) {
       console.log("Hit!"); // We might not be checking this often enough
+      this.player.lives--;
       this.destroyed = true;
     }
     this.move();
