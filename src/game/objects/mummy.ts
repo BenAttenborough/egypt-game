@@ -123,25 +123,21 @@ export class Mummy {
     return direction;
   }
 
-  // recalculateDriection(): Direction {
-  //   let direction = this.direction;
+  checkCollision(): boolean {
+    if (this.x === this.player.x && this.y === this.player.y) {
+      return true;
+    }
+    return false;
+  }
 
-  //   if (this.player.x > this.x && this.x < 40) {
-  //     direction = "RIGHT";
-  //   } else if (this.player.x < this.x && this.x > 0) {
-  //     direction = "LEFT";
-  //   } else if (this.player.y > this.y && this.y < 26) {
-  //     direction = "DOWN";
-  //   } else if (this.player.y < this.y && this.y > 0) {
-  //     direction = "UP";
-  //   } else {
-  //     direction = this.direction; // Fallback to current if no movement possible
-  //   }
-  //   return direction;
-  // }
+  update() {
+    if (this.checkCollision()) {
+      console.log("Hit!"); // We might not be checking this often enough
+    }
+    this.move();
+  }
 
   move() {
-    // console.log("Tick");
     let direction: Direction = this.direction;
 
     if (this.xCorners.includes(this.x) && this.yCorners.includes(this.y)) {
@@ -149,6 +145,6 @@ export class Mummy {
     }
 
     this.moveInternal(direction);
-    setTimeout(() => this.move(), 200);
+    setTimeout(() => this.update(), 200);
   }
 }

@@ -51,7 +51,9 @@ export class GameScene implements scene {
       spriteSheet: this.spriteSheet,
       player: this.player,
     });
-    this.mummies.mummies[0].move();
+    this.mummies.mummies.forEach((mummy) => {
+      mummy.update();
+    });
   };
 
   exit = (gameScene: gameScene) => {};

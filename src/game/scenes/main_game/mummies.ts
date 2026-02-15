@@ -26,7 +26,7 @@ export class Mummies {
 
   moveMummies = () => {
     this.mummies.forEach((mummy) => {
-      mummy.move();
+      mummy.update();
     });
   };
 }
