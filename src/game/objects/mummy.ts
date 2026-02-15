@@ -16,6 +16,7 @@ export class Mummy {
   movementDelay: number = 200; // delay in milliseconds in character movement
   xCorners: number[] = [0, 8, 16, 24, 32, 40];
   yCorners: number[] = [4, 10, 16, 22, 28];
+  destroyed: boolean = false;
 
   x: number;
   y: number;
@@ -30,6 +31,10 @@ export class Mummy {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    if (this.destroyed) {
+      return;
+    }
+
     let offset = 0;
     switch (this.direction) {
       case "UP":
@@ -131,8 +136,12 @@ export class Mummy {
   }
 
   update() {
+    if (this.destroyed) {
+      return;
+    }
     if (this.checkCollision()) {
       console.log("Hit!"); // We might not be checking this often enough
+      this.destroyed = true;
     }
     this.move();
   }
